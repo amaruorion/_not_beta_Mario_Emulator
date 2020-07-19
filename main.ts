@@ -4,7 +4,7 @@ namespace SpriteKind {
 }
 function StartLevel () {
     if (Current_Level == 1) {
-        tiles.setTilemap(tiles.createTilemap(hex`0a0008000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000000020100000000000300020101000000000002020101010202020202`, img`
+        tiles.setTilemap(tiles.createTilemap(hex`0a0008000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000000020100000000000300020101000000000002020104010202020202`, img`
             . . . . . . . . . . 
             . . . . . . . . . . 
             . . . . . . . . . . 
@@ -13,7 +13,7 @@ function StartLevel () {
             . . . 2 . . . . . . 
             . . 2 . . . . . . . 
             2 2 2 2 2 2 2 2 2 2 
-            `, [myTiles.tile0,myTiles.tile6,myTiles.tile1,myTiles.tile3], TileScale.Sixteen))
+            `, [myTiles.tile0,myTiles.tile6,myTiles.tile1,myTiles.tile3,myTiles.tile12], TileScale.Sixteen))
     } else if (Current_Level == 2) {
     	
     } else if (Current_Level == 3) {
@@ -46,6 +46,7 @@ function StartLevel () {
         tiles.placeOnTile(MarioPlayer, value2)
         tiles.setTileAt(value2, myTiles.transparency16)
     }
+    scene.cameraFollowSprite(MarioPlayer)
 }
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (mario_jump_count <= 2) {
@@ -473,5 +474,37 @@ game.onUpdate(function () {
 game.onUpdate(function () {
     if (MarioPlayer.isHittingTile(CollisionDirection.Bottom)) {
         mario_jump_count = 0
+    }
+})
+game.onUpdate(function () {
+    if (MarioPlayer.tileKindAt(TileDirection.Bottom, myTiles.tile12)) {
+        tiles.setTileAt(tiles.getTileLocation(3, 7), myTiles.tile8)
+    }
+})
+game.onUpdate(function () {
+    if (MarioPlayer.tileKindAt(TileDirection.Bottom, myTiles.tile8) && controller.down.isPressed()) {
+        tiles.setTilemap(tiles.createTilemap(hex`0a0008000501010101010101010104000000000200000000000000000000000000000000000000000000000000000002000200020000000000000000000000000000000000000000000003030303030303030303`, img`
+            2 2 2 2 2 2 2 2 2 2 
+            2 . . . . . . . . . 
+            . . . . . . . . . . 
+            . . . . . . . . . . 
+            . . . . . . . . . . 
+            . . . . . . . . . . 
+            . . . . . . . . . . 
+            2 2 2 2 2 2 2 2 2 2 
+            `, [myTiles.transparency16,myTiles.tile1,myTiles.tile9,sprites.dungeon.hazardHole,myTiles.tile10,myTiles.tile11], TileScale.Sixteen))
+        tiles.placeOnTile(MarioPlayer, tiles.getTileLocation(0, 2))
+    } else if (MarioPlayer.tileKindAt(TileDirection.Top, myTiles.tile10) && controller.up.isPressed()) {
+        tiles.setTilemap(tiles.createTilemap(hex`0a0008000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000000020300000000000000020303000000000002020104010202020202`, img`
+            . . . . . . . . . . 
+            . . . . . . . . . . 
+            . . . . . . . . . . 
+            . . . . . . . . . . 
+            . . . . 2 . . . . . 
+            . . . 2 . . . . . . 
+            . . 2 . . . . . . . 
+            2 2 2 2 2 2 2 2 2 2 
+            `, [myTiles.tile0,myTiles.tile6,myTiles.tile1,myTiles.transparency16,myTiles.tile8], TileScale.Sixteen))
+        tiles.placeOnTile(MarioPlayer, tiles.getTileLocation(3, 6))
     }
 })
