@@ -1,5 +1,5 @@
 {
-    "name": " NOT BETA Mario Emulator",
+    "name": "Mario Emulator",
     "description": "",
     "dependencies": {
         "device": "*"

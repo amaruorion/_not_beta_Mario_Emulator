@@ -4,23 +4,23 @@ namespace SpriteKind {
 }
 function StartLevel () {
     if (Current_Level == 1) {
-        tiles.setTilemap(tiles.createTilemap(hex`0a0008000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003000000000200000001010101010101010101`, img`
+        tiles.setTilemap(tiles.createTilemap(hex`0a0008000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000000020100000000000300020101000000000002020101010202020202`, img`
+            . . . . . . . . . . 
+            . . . . . . . . . . 
+            . . . . . . . . . . 
+            . . . . . . . . . . 
+            . . . . 2 . . . . . 
+            . . . 2 . . . . . . 
+            . . 2 . . . . . . . 
             2 2 2 2 2 2 2 2 2 2 
-            2 . . . . . . . . 2 
-            2 . . . . . . . . 2 
-            2 . . . . . . . . 2 
-            2 . . . . . . . . 2 
-            2 . . . . . . . . 2 
-            2 . . . . . . . . 2 
-            2 2 2 2 2 2 2 2 2 2 
-            `, [myTiles.transparency16,myTiles.tile1,myTiles.tile2,myTiles.tile3], TileScale.Sixteen))
+            `, [myTiles.tile0,myTiles.tile6,myTiles.tile1,myTiles.tile3], TileScale.Sixteen))
     } else if (Current_Level == 2) {
     	
     } else if (Current_Level == 3) {
     	
     }
     for (let value of tiles.getTilesByType(myTiles.tile2)) {
-        Goomba = sprites.create(img`
+        GoombaEnemy = sprites.create(img`
             . . . . . . e e e e . . . . . . 
             . . . . . e e e e e e . . . . . 
             . . . . e e e e e e e e . . . . 
@@ -38,18 +38,18 @@ function StartLevel () {
             . . . f f f d d d f f f f f f . 
             . . . . f f f d . f f f f f . . 
             `, SpriteKind.Goomba)
-        Goomba.ay = 350
-        tiles.placeOnTile(Goomba, value)
+        GoombaEnemy.ay = 350
+        tiles.placeOnTile(GoombaEnemy, value)
         tiles.setTileAt(value, myTiles.transparency16)
     }
     for (let value2 of tiles.getTilesByType(myTiles.tile3)) {
-        tiles.placeOnTile(Mario, value2)
+        tiles.placeOnTile(MarioPlayer, value2)
         tiles.setTileAt(value2, myTiles.transparency16)
     }
 }
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (mario_jump_count <= 1) {
-        Mario.vy = -130
+    if (mario_jump_count <= 2) {
+        MarioPlayer.vy = -130
         mario_jump_count += 1
     }
 })
@@ -177,7 +177,7 @@ function startGame () {
         9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
         `)
     mario_jump_count = 2
-    Mario = sprites.create(img`
+    MarioPlayer = sprites.create(img`
         . . . 2 2 2 2 2 . . . . 
         . . 2 2 2 2 2 2 2 2 2 . 
         . . e e e d d f d . . . 
@@ -211,15 +211,15 @@ function startGame () {
         . e e e 8 8 8 8 8 8 . . . . . . 
         . e e . . . . . . . . . . . . . 
         `
-    controller.moveSprite(Mario, 100, 0)
+    controller.moveSprite(MarioPlayer, 100, 0)
     marioJumpLeftImage.flipX()
-    Mario.ay = 350
+    MarioPlayer.ay = 350
     Current_Level = 1
     StartLevel()
 }
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (Mario.isHittingTile(CollisionDirection.Bottom)) {
-        Mario.setImage(img`
+    if (MarioPlayer.isHittingTile(CollisionDirection.Bottom)) {
+        MarioPlayer.setImage(img`
             . . . . 2 2 2 2 2 . . . 
             . 2 2 2 2 2 2 2 2 2 . . 
             . . . d f d d e e e . . 
@@ -258,8 +258,8 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (Mario.isHittingTile(CollisionDirection.Bottom)) {
-        Mario.setImage(img`
+    if (MarioPlayer.isHittingTile(CollisionDirection.Bottom)) {
+        MarioPlayer.setImage(img`
             . . . 2 2 2 2 2 . . . . 
             . . 2 2 2 2 2 2 2 2 2 . 
             . . e e e d d f d . . . 
@@ -298,8 +298,8 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 sprites.onOverlap(SpriteKind.Mario, SpriteKind.Goomba, function (sprite, otherSprite) {
-    if (Mario.y < Goomba.y) {
-        Goomba.setImage(img`
+    if (MarioPlayer.y < GoombaEnemy.y) {
+        GoombaEnemy.setImage(img`
             . . . . . e e e e e e e e . . . . . 
             . . . e e e e e e e e e e e e . . . 
             . e e f f f e e e e e e f f f e e . 
@@ -309,13 +309,13 @@ sprites.onOverlap(SpriteKind.Mario, SpriteKind.Goomba, function (sprite, otherSp
             . . . . d d d d d d d d d d . . . . 
             . . f f f f . . . . . . f f f f . . 
             `)
-        Goomba.vx = 0
-        Goomba.setFlag(SpriteFlag.Ghost, true)
-        Mario.vy = -50
+        GoombaEnemy.vx = 0
+        GoombaEnemy.setFlag(SpriteFlag.Ghost, true)
+        MarioPlayer.vy = -50
         pause(1000)
         info.changeScoreBy(100)
         otherSprite.destroy()
-    } else if (Mario.y >= Goomba.y) {
+    } else if (MarioPlayer.y >= GoombaEnemy.y) {
         info.changeLifeBy(-1)
         otherSprite.destroy()
     }
@@ -323,15 +323,15 @@ sprites.onOverlap(SpriteKind.Mario, SpriteKind.Goomba, function (sprite, otherSp
 let marioDefaultFixImage: Image = null
 let marioJumpLeftImage: Image = null
 let mario_jump_count = 0
-let Mario: Sprite = null
-let Goomba: Sprite = null
+let MarioPlayer: Sprite = null
+let GoombaEnemy: Sprite = null
 let Current_Level = 0
 startGame()
 game.onUpdate(function () {
-    if (Mario.vy < 0 && controller.left.isPressed()) {
-        Mario.setImage(marioJumpLeftImage)
-    } else if (Mario.vy < 0 && controller.right.isPressed()) {
-        Mario.setImage(img`
+    if (MarioPlayer.vy < 0 && controller.left.isPressed()) {
+        MarioPlayer.setImage(marioJumpLeftImage)
+    } else if (MarioPlayer.vy < 0 && controller.right.isPressed()) {
+        MarioPlayer.setImage(img`
             . . . . 2 2 2 2 2 . . d d d . . 
             . . . 2 2 2 2 2 2 2 2 2 d d . . 
             . . . e e e d d f d . 2 2 2 . . 
@@ -347,8 +347,8 @@ game.onUpdate(function () {
             . e e e 8 8 8 8 8 8 . . . . . . 
             . e e . . . . . . . . . . . . . 
             `)
-    } else if (Mario.isHittingTile(CollisionDirection.Bottom) && Mario.vx < 0) {
-        Mario.setImage(img`
+    } else if (MarioPlayer.isHittingTile(CollisionDirection.Bottom) && MarioPlayer.vx < 0) {
+        MarioPlayer.setImage(img`
             . . . . 2 2 2 2 2 . . . 
             . 2 2 2 2 2 2 2 2 2 . . 
             . . . d f d d e e e . . 
@@ -366,15 +366,15 @@ game.onUpdate(function () {
             . e e e . . . . e e e . 
             e e e e . . . . e e e e 
             `)
-    } else if (Mario.isHittingTile(CollisionDirection.Bottom) && Mario.vx > 0) {
-        Mario.setImage(marioDefaultFixImage)
-    } else if (Mario.isHittingTile(CollisionDirection.Bottom)) {
-        Mario.setImage(marioDefaultFixImage)
+    } else if (MarioPlayer.isHittingTile(CollisionDirection.Bottom) && MarioPlayer.vx > 0) {
+        MarioPlayer.setImage(marioDefaultFixImage)
+    } else if (MarioPlayer.isHittingTile(CollisionDirection.Bottom)) {
+        MarioPlayer.setImage(marioDefaultFixImage)
     }
 })
 game.onUpdate(function () {
     if (controller.left.isPressed()) {
-        Mario.setImage(img`
+        MarioPlayer.setImage(img`
             . . . . 2 2 2 2 2 . . . 
             . 2 2 2 2 2 2 2 2 2 . . 
             . . . d f d d e e e . . 
@@ -412,7 +412,7 @@ game.onUpdate(function () {
             `
     }
     if (controller.right.isPressed()) {
-        Mario.setImage(img`
+        MarioPlayer.setImage(img`
             . . . 2 2 2 2 2 . . . . 
             . . 2 2 2 2 2 2 2 2 2 . 
             . . e e e d d f d . . . 
@@ -449,10 +449,10 @@ game.onUpdate(function () {
             e e e e . . . . e e e e 
             `
     }
-    if (Mario.vy < 0 && controller.left.isPressed()) {
-        Mario.setImage(marioJumpLeftImage)
-    } else if (Mario.vy < 0 && controller.right.isPressed()) {
-        Mario.setImage(img`
+    if (MarioPlayer.vy < 0 && controller.left.isPressed()) {
+        MarioPlayer.setImage(marioJumpLeftImage)
+    } else if (MarioPlayer.vy < 0 && controller.right.isPressed()) {
+        MarioPlayer.setImage(img`
             . . . . 2 2 2 2 2 . . d d d . . 
             . . . 2 2 2 2 2 2 2 2 2 d d . . 
             . . . e e e d d f d . 2 2 2 . . 
@@ -471,7 +471,7 @@ game.onUpdate(function () {
     }
 })
 game.onUpdate(function () {
-    if (Mario.isHittingTile(CollisionDirection.Bottom)) {
+    if (MarioPlayer.isHittingTile(CollisionDirection.Bottom)) {
         mario_jump_count = 0
     }
 })
