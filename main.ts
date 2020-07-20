@@ -16,12 +16,12 @@ function StartLevel () {
             2 2 2 2 2 2 2 2 2 2 
             `, [myTiles.tile0,myTiles.tile6,myTiles.tile1,myTiles.tile3,myTiles.tile12], TileScale.Sixteen))
     } else if (Current_Level == 2) {
-        tiles.setTilemap(tiles.createTilemap(hex`1e000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000020200000000000000000000000000000200000000000002000000000200000000000000000000020200000000020400000000000001000000000000000000000000000002010100000002060405000500050201000000000000000000000000000004010100000206060402020202020101000000000000000000000000020201030102020404040401010101010101000000000000000000000000`, img`
+        tiles.setTilemap(tiles.createTilemap(hex`1e000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000020200000000000000000000000000000200000000000002000000000200000000000000000000020200000000020400000000000201000000000000000000000000000002010100000002060405000500050101000000000000000000000000000004010100000206060402020202020101000000000000000000000000020201030102020404040401010101010101000000000000000000000000`, img`
             . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . . . . 2 . . . . 2 2 . . . . 
             . . . . . . . . . . 2 . . . . . . 2 . . . . 2 . . . . . . . 
-            . . . 2 2 . . . . 2 2 . . . . . . 2 . . . . . . . . . . . . 
+            . . . 2 2 . . . . 2 2 . . . . . 2 2 . . . . . . . . . . . . 
             . . 2 . . . . . 2 2 2 . . . . . 2 2 . . . . . . . . . . . . 
             . . 2 . . . . 2 2 2 2 2 2 2 2 2 2 2 . . . . . . . . . . . . 
             2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . . . . . . . . . . . . 
@@ -309,8 +309,8 @@ sprites.onOverlap(SpriteKind.Mario, SpriteKind.Goomba, function (sprite, otherSp
         otherSprite.vy = 300
         info.changeScoreBy(100)
     } else if (MarioPlayer.y >= GoombaEnemy.y) {
-        game.over(false)
         otherSprite.destroy()
+        info.changeLifeBy(-1)
     }
 })
 sprites.onOverlap(SpriteKind.Mario, SpriteKind.Power_up, function (sprite, otherSprite) {
@@ -328,6 +328,7 @@ let Current_Level = 0
 let MarioPlayer: Sprite = null
 startGame()
 MarioPlayer.vy = -200
+info.setLife(5)
 game.onUpdate(function () {
     if (MarioPlayer.tileKindAt(TileDirection.Center, myTiles.tile6)) {
         tiles.setTileAt(tiles.getTileLocation(3, 6), myTiles.tile7)
