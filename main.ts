@@ -5,29 +5,27 @@ namespace SpriteKind {
 }
 function StartLevel () {
     if (Current_Level == 1) {
-        tiles.setTilemap(tiles.createTilemap(hex`0a0008000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000002020100000000000000040101000000000003020104010202020202`, img`
+        tiles.setTilemap(tiles.createTilemap(hex`0a0008000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002020000000000000002010100000000000000040101000000000003020104010202020202`, img`
             . . . . . . . . . . 
             . . . . . . . . . . 
             . . . . . . . . . . 
             . . . . . . . . . . 
-            . . . . 2 . . . . . 
-            . . 2 2 . . . . . . 
+            . . . 2 2 . . . . . 
+            . . 2 . . . . . . . 
             . . 2 . . . . . . . 
             2 2 2 2 2 2 2 2 2 2 
             `, [myTiles.tile0,myTiles.tile6,myTiles.tile1,myTiles.tile3,myTiles.tile12], TileScale.Sixteen))
     } else if (Current_Level == 2) {
-        tiles.setTilemap(tiles.createTilemap(hex`1e000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000020200000000000000000000000000000200000000000002000000000200000000000000000000000200000000020400000000000001000000000000000000000000000002020100000002060405000000000201000000000000000000000000000004010100000206060402020202020101000000000000000000000000020201030102020404040401010101010101000000000000000000000000`, img`
+        tiles.setTilemap(tiles.createTilemap(hex`1e000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000020200000000000000000000000000000200000000000002000000000200000000000000000000020200000000020400000000000001000000000000000000000000000002010100000002060405050000000201000000000000000000000000000004010100000206060402020202020101000000000000000000000000020201030102020404040401010101010101000000000000000000000000`, img`
             . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . . . . 2 . . . . 2 2 . . . . 
             . . . . . . . . . . 2 . . . . . . 2 . . . . 2 . . . . . . . 
-            . . . . 2 . . . . 2 2 . . . . . . 2 . . . . . . . . . . . . 
-            . . 2 2 . . . . 2 2 2 . . . . . 2 2 . . . . . . . . . . . . 
+            . . . 2 2 . . . . 2 2 . . . . . . 2 . . . . . . . . . . . . 
+            . . 2 . . . . . 2 2 2 . . . . . 2 2 . . . . . . . . . . . . 
             . . 2 . . . . 2 2 2 2 2 2 2 2 2 2 2 . . . . . . . . . . . . 
             2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . . . . . . . . . . . . 
             `, [myTiles.tile0,myTiles.tile6,myTiles.tile1,myTiles.tile8,myTiles.tile13,myTiles.tile2,myTiles.tile12], TileScale.Sixteen))
-    } else if (Current_Level == 3) {
-    	
     }
     for (let value2 of tiles.getTilesByType(myTiles.tile3)) {
         tiles.placeOnTile(MarioPlayer, value2)
@@ -35,9 +33,6 @@ function StartLevel () {
     }
     scene.cameraFollowSprite(MarioPlayer)
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Power_up, function (sprite, otherSprite) {
-	
-})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (mario_jump_count <= 2) {
         MarioPlayer.vy = -130
@@ -290,16 +285,39 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 sprites.onOverlap(SpriteKind.Mario, SpriteKind.Goomba, function (sprite, otherSprite) {
     if (MarioPlayer.y < GoombaEnemy.y) {
-        GoombaEnemy.vx = 0
-        GoombaEnemy.setFlag(SpriteFlag.Ghost, true)
-        MarioPlayer.vy = -50
-        GoombaEnemy.vy = 300
+        otherSprite.setImage(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . e e e e . . . . . . 
+            . . . e e e e e e e e e e . . . 
+            . e e f f f e e e e f f f e e . 
+            e e d d d d f f f f d d d d e e 
+            e e e e e e e e e e e e e e e e 
+            . . . d d d d d d d d d d . . . 
+            . . . . d d d d d d d d . . . . 
+            . f f f f f . . . . f f f f f . 
+            `)
+        otherSprite.vx = 0
+        otherSprite.setFlag(SpriteFlag.Ghost, true)
+        sprite.vy = -50
+        otherSprite.vy = 300
         info.changeScoreBy(100)
-        otherSprite.destroy()
     } else if (MarioPlayer.y >= GoombaEnemy.y) {
-        info.changeLifeBy(-1)
+        game.over(false)
         otherSprite.destroy()
     }
+})
+sprites.onOverlap(SpriteKind.Mario, SpriteKind.Power_up, function (sprite, otherSprite) {
+    otherSprite.destroy()
+    mario_jump_count = -8
+    pause(5000)
+    mario_jump_count = 0
 })
 let Helicopter_Mushroom: Sprite = null
 let GoombaEnemy: Sprite = null
@@ -316,6 +334,7 @@ game.onUpdate(function () {
         tiles.setTileAt(tiles.getTileLocation(4, 6), myTiles.tile7)
         tiles.setTileAt(tiles.getTileLocation(4, 7), myTiles.tile1)
         tiles.setTileAt(tiles.getTileLocation(4, 5), myTiles.tile7)
+        tiles.setTileAt(tiles.getTileLocation(3, 5), myTiles.tile7)
     }
 })
 game.onUpdate(function () {
@@ -364,6 +383,26 @@ game.onUpdate(function () {
     }
 })
 game.onUpdate(function () {
+    if (MarioPlayer.vy < 0 && controller.left.isPressed()) {
+        MarioPlayer.setImage(marioJumpLeftImage)
+    } else if (MarioPlayer.vy < 0 && controller.right.isPressed()) {
+        MarioPlayer.setImage(img`
+            . . . . 2 2 2 2 2 . . d d d . . 
+            . . . 2 2 2 2 2 2 2 2 2 d d . . 
+            . . . e e e d d f d . 2 2 2 . . 
+            . . e d e d d d f d d d 2 2 . . 
+            . . e d e e d d d f d d d 2 . . 
+            . . . e d d d d f f f f 2 . . . 
+            . . . . d d d d d d d 2 2 . . . 
+            d d 2 2 2 2 8 2 2 2 8 2 . . . e 
+            d d 2 2 2 2 2 8 2 2 2 8 . . e e 
+            . d d 2 2 2 2 8 8 8 8 5 8 8 e e 
+            . . . . 8 8 8 8 5 8 8 8 8 8 e e 
+            . . e e 8 8 8 8 8 8 8 8 8 8 e e 
+            . e e e 8 8 8 8 8 8 . . . . . . 
+            . e e . . . . . . . . . . . . . 
+            `)
+    }
     if (controller.left.isPressed()) {
         MarioPlayer.setImage(img`
             . . . . 2 2 2 2 2 . . . 
@@ -440,26 +479,6 @@ game.onUpdate(function () {
             e e e e . . . . e e e e 
             `
     }
-    if (MarioPlayer.vy < 0 && controller.left.isPressed()) {
-        MarioPlayer.setImage(marioJumpLeftImage)
-    } else if (MarioPlayer.vy < 0 && controller.right.isPressed()) {
-        MarioPlayer.setImage(img`
-            . . . . 2 2 2 2 2 . . d d d . . 
-            . . . 2 2 2 2 2 2 2 2 2 d d . . 
-            . . . e e e d d f d . 2 2 2 . . 
-            . . e d e d d d f d d d 2 2 . . 
-            . . e d e e d d d f d d d 2 . . 
-            . . . e d d d d f f f f 2 . . . 
-            . . . . d d d d d d d 2 2 . . . 
-            d d 2 2 2 2 8 2 2 2 8 2 . . . e 
-            d d 2 2 2 2 2 8 2 2 2 8 . . e e 
-            . d d 2 2 2 2 8 8 8 8 5 8 8 e e 
-            . . . . 8 8 8 8 5 8 8 8 8 8 e e 
-            . . e e 8 8 8 8 8 8 8 8 8 8 e e 
-            . e e e 8 8 8 8 8 8 . . . . . . 
-            . e e . . . . . . . . . . . . . 
-            `)
-    }
 })
 game.onUpdate(function () {
     if (MarioPlayer.isHittingTile(CollisionDirection.Bottom)) {
@@ -512,8 +531,17 @@ game.onUpdate(function () {
         Current_Level += 1
         StartLevel()
         MarioPlayer.vy = -200
-        tiles.placeOnTile(MarioPlayer, tiles.getTileLocation(3, 6))
+        tiles.placeOnTile(MarioPlayer, tiles.getTileLocation(5, 6))
         tiles.setTileAt(tiles.getTileLocation(3, 7), myTiles.tile13)
+        tiles.setTileAt(tiles.getTileLocation(3, 6), myTiles.tile13)
+        tiles.setTileAt(tiles.getTileLocation(3, 5), myTiles.tile13)
+        tiles.setTileAt(tiles.getTileLocation(4, 6), myTiles.tile13)
+        tiles.setTileAt(tiles.getTileLocation(4, 5), myTiles.tile13)
+        tiles.setWallAt(tiles.getTileLocation(3, 7), true)
+        tiles.setWallAt(tiles.getTileLocation(3, 6), true)
+        tiles.setWallAt(tiles.getTileLocation(3, 5), true)
+        tiles.setWallAt(tiles.getTileLocation(4, 6), true)
+        tiles.setWallAt(tiles.getTileLocation(4, 5), true)
     }
 })
 game.onUpdate(function () {
