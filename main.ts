@@ -2,6 +2,7 @@ namespace SpriteKind {
     export const Mario = SpriteKind.create()
     export const Goomba = SpriteKind.create()
     export const Power_up = SpriteKind.create()
+    export const HelicopterPowerUp = SpriteKind.create()
 }
 function StartLevel () {
     if (Current_Level == 1) {
@@ -35,9 +36,6 @@ function StartLevel () {
     }
     scene.cameraFollowSprite(MarioPlayer)
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Power_up, function (sprite, otherSprite) {
-	
-})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (mario_jump_count <= 2) {
         MarioPlayer.vy = -130
@@ -206,6 +204,7 @@ function startGame () {
     marioJumpLeftImage.flipX()
     MarioPlayer.ay = 350
     Current_Level = 1
+    info.setLife(5)
     StartLevel()
 }
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -248,6 +247,11 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
             `
     }
 })
+function isHelicopterOn () {
+    while (isHelicopterOn2 == true) {
+        MarioPlayer.setImage(marioDefaultFixImage)
+    }
+}
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     if (MarioPlayer.isHittingTile(CollisionDirection.Bottom)) {
         MarioPlayer.setImage(img`
@@ -301,8 +305,19 @@ sprites.onOverlap(SpriteKind.Mario, SpriteKind.Goomba, function (sprite, otherSp
         otherSprite.destroy()
     }
 })
+sprites.onOverlap(SpriteKind.Mario, SpriteKind.HelicopterPowerUp, function (sprite, otherSprite) {
+    isHelicopterOn2 = true
+    MarioPlayer.ay = -12.5
+    otherSprite.destroy()
+    pause(5000)
+    pause(5000)
+    MarioPlayer.ay = 350
+    isHelicopterOn2 = false
+    isHelicopterOn()
+})
 let Helicopter_Mushroom: Sprite = null
 let GoombaEnemy: Sprite = null
+let isHelicopterOn2 = false
 let marioDefaultFixImage: Image = null
 let marioJumpLeftImage: Image = null
 let mario_jump_count = 0
@@ -319,48 +334,50 @@ game.onUpdate(function () {
     }
 })
 game.onUpdate(function () {
-    if (MarioPlayer.vy < 0 && controller.left.isPressed()) {
-        MarioPlayer.setImage(marioJumpLeftImage)
-    } else if (MarioPlayer.vy < 0 && controller.right.isPressed()) {
-        MarioPlayer.setImage(img`
-            . . . . 2 2 2 2 2 . . d d d . . 
-            . . . 2 2 2 2 2 2 2 2 2 d d . . 
-            . . . e e e d d f d . 2 2 2 . . 
-            . . e d e d d d f d d d 2 2 . . 
-            . . e d e e d d d f d d d 2 . . 
-            . . . e d d d d f f f f 2 . . . 
-            . . . . d d d d d d d 2 2 . . . 
-            d d 2 2 2 2 8 2 2 2 8 2 . . . e 
-            d d 2 2 2 2 2 8 2 2 2 8 . . e e 
-            . d d 2 2 2 2 8 8 8 8 5 8 8 e e 
-            . . . . 8 8 8 8 5 8 8 8 8 8 e e 
-            . . e e 8 8 8 8 8 8 8 8 8 8 e e 
-            . e e e 8 8 8 8 8 8 . . . . . . 
-            . e e . . . . . . . . . . . . . 
-            `)
-    } else if (MarioPlayer.isHittingTile(CollisionDirection.Bottom) && MarioPlayer.vx < 0) {
-        MarioPlayer.setImage(img`
-            . . . . 2 2 2 2 2 . . . 
-            . 2 2 2 2 2 2 2 2 2 . . 
-            . . . d f d d e e e . . 
-            . d d d f d d d e d e . 
-            d d d f d d d e e d e . 
-            . f f f f d d d d e . . 
-            . . . d d d d d d . . . 
-            . . 2 2 8 2 2 8 2 2 . . 
-            . 2 2 2 8 2 2 8 2 2 2 . 
-            2 2 2 2 8 8 8 8 2 2 2 2 
-            d d 2 8 5 8 8 5 8 2 d d 
-            d d d 8 8 8 8 8 8 d d d 
-            d d 8 8 8 8 8 8 8 8 d d 
-            . . 8 8 8 . . 8 8 8 . . 
-            . e e e . . . . e e e . 
-            e e e e . . . . e e e e 
-            `)
-    } else if (MarioPlayer.isHittingTile(CollisionDirection.Bottom) && MarioPlayer.vx > 0) {
-        MarioPlayer.setImage(marioDefaultFixImage)
-    } else if (MarioPlayer.isHittingTile(CollisionDirection.Bottom)) {
-        MarioPlayer.setImage(marioDefaultFixImage)
+    if (isHelicopterOn2 == false) {
+        if (MarioPlayer.vy < 0 && controller.left.isPressed() && isHelicopterOn2 == false) {
+            MarioPlayer.setImage(marioJumpLeftImage)
+        } else if (MarioPlayer.vy < 0 && controller.right.isPressed() && isHelicopterOn2 == false) {
+            MarioPlayer.setImage(img`
+                . . . . 2 2 2 2 2 . . d d d . . 
+                . . . 2 2 2 2 2 2 2 2 2 d d . . 
+                . . . e e e d d f d . 2 2 2 . . 
+                . . e d e d d d f d d d 2 2 . . 
+                . . e d e e d d d f d d d 2 . . 
+                . . . e d d d d f f f f 2 . . . 
+                . . . . d d d d d d d 2 2 . . . 
+                d d 2 2 2 2 8 2 2 2 8 2 . . . e 
+                d d 2 2 2 2 2 8 2 2 2 8 . . e e 
+                . d d 2 2 2 2 8 8 8 8 5 8 8 e e 
+                . . . . 8 8 8 8 5 8 8 8 8 8 e e 
+                . . e e 8 8 8 8 8 8 8 8 8 8 e e 
+                . e e e 8 8 8 8 8 8 . . . . . . 
+                . e e . . . . . . . . . . . . . 
+                `)
+        } else if (MarioPlayer.isHittingTile(CollisionDirection.Bottom) && MarioPlayer.vx < 0 && isHelicopterOn2 == false) {
+            MarioPlayer.setImage(img`
+                . . . . 2 2 2 2 2 . . . 
+                . 2 2 2 2 2 2 2 2 2 . . 
+                . . . d f d d e e e . . 
+                . d d d f d d d e d e . 
+                d d d f d d d e e d e . 
+                . f f f f d d d d e . . 
+                . . . d d d d d d . . . 
+                . . 2 2 8 2 2 8 2 2 . . 
+                . 2 2 2 8 2 2 8 2 2 2 . 
+                2 2 2 2 8 8 8 8 2 2 2 2 
+                d d 2 8 5 8 8 5 8 2 d d 
+                d d d 8 8 8 8 8 8 d d d 
+                d d 8 8 8 8 8 8 8 8 d d 
+                . . 8 8 8 . . 8 8 8 . . 
+                . e e e . . . . e e e . 
+                e e e e . . . . e e e e 
+                `)
+        } else if (MarioPlayer.isHittingTile(CollisionDirection.Bottom) && MarioPlayer.vx > 0 && isHelicopterOn2 == false) {
+            MarioPlayer.setImage(marioDefaultFixImage)
+        } else if (MarioPlayer.isHittingTile(CollisionDirection.Bottom)) {
+            MarioPlayer.setImage(marioDefaultFixImage)
+        }
     }
 })
 game.onUpdate(function () {
@@ -462,11 +479,6 @@ game.onUpdate(function () {
     }
 })
 game.onUpdate(function () {
-    if (MarioPlayer.isHittingTile(CollisionDirection.Bottom)) {
-        mario_jump_count = 0
-    }
-})
-game.onUpdate(function () {
     for (let value of tiles.getTilesByType(myTiles.tile2)) {
         GoombaEnemy = sprites.create(img`
             . . . . . . e e e e . . . . . . 
@@ -524,24 +536,29 @@ game.onUpdate(function () {
             . . . . . . . 5 5 4 . . . . . . 
             . . . . . f f f f f f . . . . . 
             . . . f f 4 4 4 4 4 4 f f . . . 
-            . . f 4 4 4 4 4 4 4 4 4 4 f . . 
-            . f 4 4 4 4 4 4 4 4 4 4 4 4 f . 
-            . f 4 4 4 4 4 4 4 1 1 1 4 4 f . 
-            f 4 4 4 4 4 4 4 4 1 1 1 4 4 4 f 
-            f 4 4 4 4 4 4 4 4 1 1 1 4 4 4 f 
-            f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-            f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-            f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-            f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+            . . f 4 4 4 4 4 1 1 4 4 4 f . . 
+            . f 1 4 4 4 4 1 1 1 1 4 4 4 f . 
+            . f 1 1 4 4 1 1 1 1 1 1 4 1 f . 
+            f 1 1 1 4 4 1 1 1 1 1 1 4 1 1 f 
+            f 1 1 1 1 4 1 1 1 1 1 4 4 1 1 f 
+            f 1 1 1 1 4 1 1 1 1 1 4 1 1 1 f 
+            f 1 1 1 1 4 4 1 1 1 4 4 1 1 1 f 
+            f 1 1 1 4 4 4 4 1 4 4 4 1 1 1 f 
+            f 1 4 4 4 4 4 4 4 4 4 4 4 1 1 f 
             f 4 4 4 f f f f f f f f 4 4 4 f 
             . f f f 1 1 f 1 1 f 1 1 f f f . 
             . . f 1 1 1 f 1 1 f 1 1 1 f . . 
             . . f 1 1 1 1 1 1 1 1 1 1 f . . 
             . . . f 1 1 1 1 1 1 1 1 f . . . 
             . . . . f f f f f f f f . . . . 
-            `, SpriteKind.Power_up)
+            `, SpriteKind.HelicopterPowerUp)
         Helicopter_Mushroom.ay = 350
         tiles.setTileAt(tiles.getTileLocation(5, 4), myTiles.tile0)
         tiles.setWallAt(tiles.getTileLocation(5, 4), false)
+    }
+})
+game.onUpdate(function () {
+    if (MarioPlayer.isHittingTile(CollisionDirection.Bottom)) {
+        mario_jump_count = 0
     }
 })
