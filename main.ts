@@ -1,53 +1,43 @@
 namespace SpriteKind {
     export const Mario = SpriteKind.create()
     export const Goomba = SpriteKind.create()
+    export const Power_up = SpriteKind.create()
 }
 function StartLevel () {
     if (Current_Level == 1) {
-        tiles.setTilemap(tiles.createTilemap(hex`0a0008000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000000020100000000000300020101000000000002020104010202020202`, img`
+        tiles.setTilemap(tiles.createTilemap(hex`0a0008000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000002020100000000000000040101000000000003020104010202020202`, img`
             . . . . . . . . . . 
             . . . . . . . . . . 
             . . . . . . . . . . 
             . . . . . . . . . . 
             . . . . 2 . . . . . 
-            . . . 2 . . . . . . 
+            . . 2 2 . . . . . . 
             . . 2 . . . . . . . 
             2 2 2 2 2 2 2 2 2 2 
             `, [myTiles.tile0,myTiles.tile6,myTiles.tile1,myTiles.tile3,myTiles.tile12], TileScale.Sixteen))
     } else if (Current_Level == 2) {
-    	
+        tiles.setTilemap(tiles.createTilemap(hex`1e000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000020200000000000000000000000000000200000000000002000000000200000000000000000000000200000000020400000000000001000000000000000000000000000002020100000002060405000000000201000000000000000000000000000004010100000206060402020202020101000000000000000000000000020201030102020404040401010101010101000000000000000000000000`, img`
+            . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . . . . 2 . . . . 2 2 . . . . 
+            . . . . . . . . . . 2 . . . . . . 2 . . . . 2 . . . . . . . 
+            . . . . 2 . . . . 2 2 . . . . . . 2 . . . . . . . . . . . . 
+            . . 2 2 . . . . 2 2 2 . . . . . 2 2 . . . . . . . . . . . . 
+            . . 2 . . . . 2 2 2 2 2 2 2 2 2 2 2 . . . . . . . . . . . . 
+            2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . . . . . . . . . . . . 
+            `, [myTiles.tile0,myTiles.tile6,myTiles.tile1,myTiles.tile8,myTiles.tile13,myTiles.tile2,myTiles.tile12], TileScale.Sixteen))
     } else if (Current_Level == 3) {
     	
     }
-    for (let value of tiles.getTilesByType(myTiles.tile2)) {
-        GoombaEnemy = sprites.create(img`
-            . . . . . . e e e e . . . . . . 
-            . . . . . e e e e e e . . . . . 
-            . . . . e e e e e e e e . . . . 
-            . . . e e e e e e e e e e . . . 
-            . . e f f e e e e e e f f e . . 
-            . e e e e f e e e e f d e e e . 
-            . e e e d f f f f f f d e e e . 
-            e e e e d f d e e d f d e e e e 
-            e e e e d d d e e d d d e e e e 
-            e e e e e e e e e e e e e e e e 
-            . e e e e d d d d d d e e e e . 
-            . . . . d d d d d d d d . . . . 
-            . . . . d d d d d d d d f f . . 
-            . . . f f d d d d d f f f f f . 
-            . . . f f f d d d f f f f f f . 
-            . . . . f f f d . f f f f f . . 
-            `, SpriteKind.Goomba)
-        GoombaEnemy.ay = 350
-        tiles.placeOnTile(GoombaEnemy, value)
-        tiles.setTileAt(value, myTiles.transparency16)
-    }
     for (let value2 of tiles.getTilesByType(myTiles.tile3)) {
         tiles.placeOnTile(MarioPlayer, value2)
-        tiles.setTileAt(value2, myTiles.transparency16)
+        tiles.setTileAt(value2, myTiles.tile1)
     }
     scene.cameraFollowSprite(MarioPlayer)
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Power_up, function (sprite, otherSprite) {
+	
+})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (mario_jump_count <= 2) {
         MarioPlayer.vy = -130
@@ -300,20 +290,10 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 sprites.onOverlap(SpriteKind.Mario, SpriteKind.Goomba, function (sprite, otherSprite) {
     if (MarioPlayer.y < GoombaEnemy.y) {
-        GoombaEnemy.setImage(img`
-            . . . . . e e e e e e e e . . . . . 
-            . . . e e e e e e e e e e e e . . . 
-            . e e f f f e e e e e e f f f e e . 
-            e e d d d d f f f f f f d d d d e e 
-            e e e e e e e e e e e e e e e e e e 
-            . . . d d d d d d d d d d d d . . . 
-            . . . . d d d d d d d d d d . . . . 
-            . . f f f f . . . . . . f f f f . . 
-            `)
         GoombaEnemy.vx = 0
         GoombaEnemy.setFlag(SpriteFlag.Ghost, true)
         MarioPlayer.vy = -50
-        pause(1000)
+        GoombaEnemy.vy = 300
         info.changeScoreBy(100)
         otherSprite.destroy()
     } else if (MarioPlayer.y >= GoombaEnemy.y) {
@@ -321,13 +301,23 @@ sprites.onOverlap(SpriteKind.Mario, SpriteKind.Goomba, function (sprite, otherSp
         otherSprite.destroy()
     }
 })
+let Helicopter_Mushroom: Sprite = null
+let GoombaEnemy: Sprite = null
 let marioDefaultFixImage: Image = null
 let marioJumpLeftImage: Image = null
 let mario_jump_count = 0
-let MarioPlayer: Sprite = null
-let GoombaEnemy: Sprite = null
 let Current_Level = 0
+let MarioPlayer: Sprite = null
 startGame()
+MarioPlayer.vy = -200
+game.onUpdate(function () {
+    if (MarioPlayer.tileKindAt(TileDirection.Center, myTiles.tile6)) {
+        tiles.setTileAt(tiles.getTileLocation(3, 6), myTiles.tile7)
+        tiles.setTileAt(tiles.getTileLocation(4, 6), myTiles.tile7)
+        tiles.setTileAt(tiles.getTileLocation(4, 7), myTiles.tile1)
+        tiles.setTileAt(tiles.getTileLocation(4, 5), myTiles.tile7)
+    }
+})
 game.onUpdate(function () {
     if (MarioPlayer.vy < 0 && controller.left.isPressed()) {
         MarioPlayer.setImage(marioJumpLeftImage)
@@ -477,34 +467,81 @@ game.onUpdate(function () {
     }
 })
 game.onUpdate(function () {
+    for (let value of tiles.getTilesByType(myTiles.tile2)) {
+        GoombaEnemy = sprites.create(img`
+            . . . . . . e e e e . . . . . . 
+            . . . . . e e e e e e . . . . . 
+            . . . . e e e e e e e e . . . . 
+            . . . e e e e e e e e e e . . . 
+            . . e f f e e e e e e f f e . . 
+            . e e e e f e e e e f d e e e . 
+            . e e e d f f f f f f d e e e . 
+            e e e e d f d e e d f d e e e e 
+            e e e e d d d e e d d d e e e e 
+            e e e e e e e e e e e e e e e e 
+            . e e e e d d d d d d e e e e . 
+            . . . . d d d d d d d d . . . . 
+            . . . . d d d d d d d d f f . . 
+            . . . f f d d d d d f f f f f . 
+            . . . f f f d d d f f f f f f . 
+            . . . . f f f d . f f f f f . . 
+            `, SpriteKind.Goomba)
+        tiles.placeOnTile(GoombaEnemy, value)
+        tiles.setTileAt(value, myTiles.transparency16)
+    }
+})
+game.onUpdate(function () {
     if (MarioPlayer.tileKindAt(TileDirection.Bottom, myTiles.tile12)) {
         tiles.setTileAt(tiles.getTileLocation(3, 7), myTiles.tile8)
     }
 })
 game.onUpdate(function () {
     if (MarioPlayer.tileKindAt(TileDirection.Bottom, myTiles.tile8) && controller.down.isPressed()) {
-        tiles.setTilemap(tiles.createTilemap(hex`0a0008000501010101010101010104000000000200000000000000000000000000000000000000000000000000000002000200020000000000000000000000000000000000000000000003030303030303030303`, img`
+        tiles.setTilemap(tiles.createTilemap(hex`0a0008000501010101010101010104000000000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000003030303030303030303`, img`
             2 2 2 2 2 2 2 2 2 2 
             2 . . . . . . . . . 
             . . . . . . . . . . 
             . . . . . . . . . . 
-            . . . . . . . . . . 
+            . . . . . 2 . . . . 
             . . . . . . . . . . 
             . . . . . . . . . . 
             2 2 2 2 2 2 2 2 2 2 
             `, [myTiles.transparency16,myTiles.tile1,myTiles.tile9,sprites.dungeon.hazardHole,myTiles.tile10,myTiles.tile11], TileScale.Sixteen))
         tiles.placeOnTile(MarioPlayer, tiles.getTileLocation(0, 2))
     } else if (MarioPlayer.tileKindAt(TileDirection.Top, myTiles.tile10) && controller.up.isPressed()) {
-        tiles.setTilemap(tiles.createTilemap(hex`0a0008000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000000020300000000000000020303000000000002020104010202020202`, img`
-            . . . . . . . . . . 
-            . . . . . . . . . . 
-            . . . . . . . . . . 
-            . . . . . . . . . . 
-            . . . . 2 . . . . . 
-            . . . 2 . . . . . . 
-            . . 2 . . . . . . . 
-            2 2 2 2 2 2 2 2 2 2 
-            `, [myTiles.tile0,myTiles.tile6,myTiles.tile1,myTiles.transparency16,myTiles.tile8], TileScale.Sixteen))
+        Current_Level += 1
+        StartLevel()
+        MarioPlayer.vy = -200
         tiles.placeOnTile(MarioPlayer, tiles.getTileLocation(3, 6))
+        tiles.setTileAt(tiles.getTileLocation(3, 7), myTiles.tile13)
+    }
+})
+game.onUpdate(function () {
+    if (MarioPlayer.tileKindAt(TileDirection.Top, myTiles.tile9)) {
+        Helicopter_Mushroom = sprites.create(img`
+            b b b b b b b b b b b b b b b b 
+            d d d d d d d 5 5 4 . . . . . . 
+            . . . . . . . 5 5 4 . . . . . . 
+            . . . . . f f f f f f . . . . . 
+            . . . f f 4 4 4 4 4 4 f f . . . 
+            . . f 4 4 4 4 4 4 4 4 4 4 f . . 
+            . f 4 4 4 4 4 4 4 4 4 4 4 4 f . 
+            . f 4 4 4 4 4 4 4 1 1 1 4 4 f . 
+            f 4 4 4 4 4 4 4 4 1 1 1 4 4 4 f 
+            f 4 4 4 4 4 4 4 4 1 1 1 4 4 4 f 
+            f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+            f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+            f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+            f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
+            f 4 4 4 f f f f f f f f 4 4 4 f 
+            . f f f 1 1 f 1 1 f 1 1 f f f . 
+            . . f 1 1 1 f 1 1 f 1 1 1 f . . 
+            . . f 1 1 1 1 1 1 1 1 1 1 f . . 
+            . . . f 1 1 1 1 1 1 1 1 f . . . 
+            . . . . f f f f f f f f . . . . 
+            `, SpriteKind.Power_up)
+        Helicopter_Mushroom.ay = 350
+        tiles.setTileAt(tiles.getTileLocation(5, 4), myTiles.tile0)
+        tiles.setWallAt(tiles.getTileLocation(5, 4), false)
     }
 })
