@@ -202,6 +202,8 @@ function startGame () {
     MarioPlayer.ay = 350
     Current_Level = 1
     StartLevel()
+    isMoveLeft = 0
+    isGoombaCreated = false
 }
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     if (MarioPlayer.isHittingTile(CollisionDirection.Bottom)) {
@@ -307,6 +309,7 @@ sprites.onOverlap(SpriteKind.Mario, SpriteKind.Goomba, function (sprite, otherSp
         otherSprite.setFlag(SpriteFlag.Ghost, true)
         sprite.vy = -50
         otherSprite.vy = 300
+        otherSprite.vx = 0
         info.changeScoreBy(100)
     } else if (MarioPlayer.y >= GoombaEnemy.y) {
         otherSprite.destroy()
@@ -319,9 +322,10 @@ sprites.onOverlap(SpriteKind.Mario, SpriteKind.Power_up, function (sprite, other
     pause(5000)
     mario_jump_count = 0
 })
-let Helicopter_Mushroom: Sprite = null
 let GoombaEnemy: Sprite = null
 let marioDefaultFixImage: Image = null
+let isGoombaCreated = false
+let isMoveLeft = 0
 let marioJumpLeftImage: Image = null
 let mario_jump_count = 0
 let Current_Level = 0
@@ -487,30 +491,6 @@ game.onUpdate(function () {
     }
 })
 game.onUpdate(function () {
-    for (let value of tiles.getTilesByType(myTiles.tile2)) {
-        GoombaEnemy = sprites.create(img`
-            . . . . . . e e e e . . . . . . 
-            . . . . . e e e e e e . . . . . 
-            . . . . e e e e e e e e . . . . 
-            . . . e e e e e e e e e e . . . 
-            . . e f f e e e e e e f f e . . 
-            . e e e e f e e e e f d e e e . 
-            . e e e d f f f f f f d e e e . 
-            e e e e d f d e e d f d e e e e 
-            e e e e d d d e e d d d e e e e 
-            e e e e e e e e e e e e e e e e 
-            . e e e e d d d d d d e e e e . 
-            . . . . d d d d d d d d . . . . 
-            . . . . d d d d d d d d f f . . 
-            . . . f f d d d d d f f f f f . 
-            . . . f f f d d d f f f f f f . 
-            . . . . f f f d . f f f f f . . 
-            `, SpriteKind.Goomba)
-        tiles.placeOnTile(GoombaEnemy, value)
-        tiles.setTileAt(value, myTiles.transparency16)
-    }
-})
-game.onUpdate(function () {
     if (MarioPlayer.tileKindAt(TileDirection.Bottom, myTiles.tile12)) {
         tiles.setTileAt(tiles.getTileLocation(3, 7), myTiles.tile8)
     }
@@ -545,32 +525,64 @@ game.onUpdate(function () {
         tiles.setWallAt(tiles.getTileLocation(4, 5), true)
     }
 })
-game.onUpdate(function () {
-    if (MarioPlayer.tileKindAt(TileDirection.Top, myTiles.tile9)) {
-        Helicopter_Mushroom = sprites.create(img`
-            b b b b b b b b b b b b b b b b 
-            d d d d d d d 5 5 4 . . . . . . 
-            . . . . . . . 5 5 4 . . . . . . 
-            . . . . . f f f f f f . . . . . 
-            . . . f f 4 4 4 4 4 4 f f . . . 
-            . . f 4 4 4 4 4 4 4 4 4 4 f . . 
-            . f 4 4 4 4 4 4 4 4 4 4 4 4 f . 
-            . f 4 4 4 4 4 4 4 1 1 1 4 4 f . 
-            f 4 4 4 4 4 4 4 4 1 1 1 4 4 4 f 
-            f 4 4 4 4 4 4 4 4 1 1 1 4 4 4 f 
-            f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-            f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-            f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-            f 4 4 4 4 4 4 4 4 4 4 4 4 4 4 f 
-            f 4 4 4 f f f f f f f f 4 4 4 f 
-            . f f f 1 1 f 1 1 f 1 1 f f f . 
-            . . f 1 1 1 f 1 1 f 1 1 1 f . . 
-            . . f 1 1 1 1 1 1 1 1 1 1 f . . 
-            . . . f 1 1 1 1 1 1 1 1 f . . . 
-            . . . . f f f f f f f f . . . . 
-            `, SpriteKind.Power_up)
-        Helicopter_Mushroom.ay = 350
-        tiles.setTileAt(tiles.getTileLocation(5, 4), myTiles.tile0)
-        tiles.setWallAt(tiles.getTileLocation(5, 4), false)
+forever(function () {
+    for (let value of tiles.getTilesByType(myTiles.tile2)) {
+        GoombaEnemy = sprites.create(img`
+            . . . . . . e e e e . . . . . . 
+            . . . . . e e e e e e . . . . . 
+            . . . . e e e e e e e e . . . . 
+            . . . e e e e e e e e e e . . . 
+            . . e f f e e e e e e f f e . . 
+            . e e e e f e e e e f d e e e . 
+            . e e e d f f f f f f d e e e . 
+            e e e e d f d e e d f d e e e e 
+            e e e e d d d e e d d d e e e e 
+            e e e e e e e e e e e e e e e e 
+            . e e e e d d d d d d e e e e . 
+            . . . . d d d d d d d d . . . . 
+            . . . . d d d d d d d d f f . . 
+            . . . f f d d d d d f f f f f . 
+            . . . f f f d d d f f f f f f . 
+            . . . . f f f d . f f f f f . . 
+            `, SpriteKind.Goomba)
+        tiles.placeOnTile(GoombaEnemy, value)
+        tiles.setTileAt(value, myTiles.transparency16)
+        GoombaEnemy.ay = 350
+        isGoombaCreated = true
+    }
+})
+forever(function () {
+    if (isGoombaCreated) {
+        if (!(GoombaEnemy.image.equals(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . e e e e . . . . . . 
+            . . . e e e e e e e e e e . . . 
+            . e e f f f e e e e f f f e e . 
+            e e d d d d f f f f d d d d e e 
+            e e e e e e e e e e e e e e e e 
+            . . . d d d d d d d d d d . . . 
+            . . . . d d d d d d d d . . . . 
+            . f f f f f . . . . f f f f f . 
+            `))) {
+            if (isMoveLeft == 0) {
+                GoombaEnemy.setVelocity(-50, 0)
+            }
+            if (isMoveLeft == 1) {
+                GoombaEnemy.setVelocity(50, 0)
+            }
+            if (GoombaEnemy.isHittingTile(CollisionDirection.Left)) {
+                isMoveLeft = 1
+            }
+            if (GoombaEnemy.isHittingTile(CollisionDirection.Right)) {
+                isMoveLeft = 0
+            }
+        }
     }
 })
