@@ -343,27 +343,9 @@ game.onUpdate(function () {
     }
 })
 game.onUpdate(function () {
-    if (MarioPlayer.vy < 0 && controller.left.isPressed()) {
+    if (!(MarioPlayer.isHittingTile(CollisionDirection.Bottom)) && controller.left.isPressed()) {
         MarioPlayer.setImage(marioJumpLeftImage)
-    } else if (MarioPlayer.vy < 0 && controller.right.isPressed()) {
-        MarioPlayer.setImage(img`
-            . . . . 2 2 2 2 2 . . d d d . . 
-            . . . 2 2 2 2 2 2 2 2 2 d d . . 
-            . . . e e e d d f d . 2 2 2 . . 
-            . . e d e d d d f d d d 2 2 . . 
-            . . e d e e d d d f d d d 2 . . 
-            . . . e d d d d f f f f 2 . . . 
-            . . . . d d d d d d d 2 2 . . . 
-            d d 2 2 2 2 8 2 2 2 8 2 . . . e 
-            d d 2 2 2 2 2 8 2 2 2 8 . . e e 
-            . d d 2 2 2 2 8 8 8 8 5 8 8 e e 
-            . . . . 8 8 8 8 5 8 8 8 8 8 e e 
-            . . e e 8 8 8 8 8 8 8 8 8 8 e e 
-            . e e e 8 8 8 8 8 8 . . . . . . 
-            . e e . . . . . . . . . . . . . 
-            `)
-    } else if (MarioPlayer.isHittingTile(CollisionDirection.Bottom) && MarioPlayer.vx < 0) {
-        MarioPlayer.setImage(img`
+        marioDefaultFixImage = img`
             . . . . 2 2 2 2 2 . . . 
             . 2 2 2 2 2 2 2 2 2 . . 
             . . . d f d d e e e . . 
@@ -380,9 +362,42 @@ game.onUpdate(function () {
             . . 8 8 8 . . 8 8 8 . . 
             . e e e . . . . e e e . 
             e e e e . . . . e e e e 
+            `
+    } else if (!(MarioPlayer.isHittingTile(CollisionDirection.Bottom)) && controller.right.isPressed()) {
+        MarioPlayer.setImage(img`
+            . . . . 2 2 2 2 2 . . d d d . . 
+            . . . 2 2 2 2 2 2 2 2 2 d d . . 
+            . . . e e e d d f d . 2 2 2 . . 
+            . . e d e d d d f d d d 2 2 . . 
+            . . e d e e d d d f d d d 2 . . 
+            . . . e d d d d f f f f 2 . . . 
+            . . . . d d d d d d d 2 2 . . . 
+            d d 2 2 2 2 8 2 2 2 8 2 . . . e 
+            d d 2 2 2 2 2 8 2 2 2 8 . . e e 
+            . d d 2 2 2 2 8 8 8 8 5 8 8 e e 
+            . . . . 8 8 8 8 5 8 8 8 8 8 e e 
+            . . e e 8 8 8 8 8 8 8 8 8 8 e e 
+            . e e e 8 8 8 8 8 8 . . . . . . 
+            . e e . . . . . . . . . . . . . 
             `)
-    } else if (MarioPlayer.isHittingTile(CollisionDirection.Bottom) && MarioPlayer.vx > 0) {
-        MarioPlayer.setImage(marioDefaultFixImage)
+        marioDefaultFixImage = img`
+            . . . 2 2 2 2 2 . . . . 
+            . . 2 2 2 2 2 2 2 2 2 . 
+            . . e e e d d f d . . . 
+            . e d e d d d f d d d . 
+            . e d e e d d d f d d d 
+            . . e d d d d f f f f . 
+            . . . d d d d d d . . . 
+            . . 2 2 8 2 2 8 2 2 . . 
+            . 2 2 2 8 2 2 8 2 2 2 . 
+            2 2 2 2 8 8 8 8 2 2 2 2 
+            d d 2 8 5 8 8 5 8 2 d d 
+            d d d 8 8 8 8 8 8 d d d 
+            d d 8 8 8 8 8 8 8 8 d d 
+            . . 8 8 8 . . 8 8 8 . . 
+            . e e e . . . . e e e . 
+            e e e e . . . . e e e e 
+            `
     } else if (MarioPlayer.isHittingTile(CollisionDirection.Bottom)) {
         MarioPlayer.setImage(marioDefaultFixImage)
     }
@@ -408,7 +423,7 @@ game.onUpdate(function () {
             . e e . . . . . . . . . . . . . 
             `)
     }
-    if (controller.left.isPressed()) {
+    if (controller.left.isPressed() && MarioPlayer.isHittingTile(CollisionDirection.Bottom)) {
         MarioPlayer.setImage(img`
             . . . . 2 2 2 2 2 . . . 
             . 2 2 2 2 2 2 2 2 2 . . 
@@ -446,7 +461,7 @@ game.onUpdate(function () {
             e e e e . . . . e e e e 
             `
     }
-    if (controller.right.isPressed()) {
+    if (controller.right.isPressed() && MarioPlayer.isHittingTile(CollisionDirection.Bottom)) {
         MarioPlayer.setImage(img`
             . . . 2 2 2 2 2 . . . . 
             . . 2 2 2 2 2 2 2 2 2 . 
