@@ -3,9 +3,6 @@ namespace SpriteKind {
     export const Goomba = SpriteKind.create()
     export const Power_up = SpriteKind.create()
 }
-scene.onOverlapTile(SpriteKind.Player, myTiles.tile14, function (sprite, location) {
-	
-})
 function StartLevel () {
     if (Current_Level == 1) {
         tiles.setTilemap(tiles.createTilemap(hex`0a0008000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002020000000000000002010100000000000000040101000000000003020104010202020202`, img`
@@ -207,6 +204,8 @@ function startGame () {
     StartLevel()
     isMoveLeft = 0
     isGoombaCreated = false
+    MarioPlayer.vy = -200
+    info.setLife(5)
 }
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     if (MarioPlayer.isHittingTile(CollisionDirection.Bottom)) {
@@ -319,6 +318,12 @@ sprites.onOverlap(SpriteKind.Mario, SpriteKind.Goomba, function (sprite, otherSp
         info.changeLifeBy(-1)
     }
 })
+scene.onOverlapTile(SpriteKind.Mario, myTiles.tile14, function (sprite, location) {
+    Current_Level = 1
+    MarioPlayer.vy = -200
+    info.changeLifeBy(-1)
+    StartLevel()
+})
 sprites.onOverlap(SpriteKind.Mario, SpriteKind.Power_up, function (sprite, otherSprite) {
     otherSprite.destroy()
     mario_jump_count = -8
@@ -331,11 +336,9 @@ let isGoombaCreated = false
 let isMoveLeft = 0
 let marioJumpLeftImage: Image = null
 let mario_jump_count = 0
-let Current_Level = 0
 let MarioPlayer: Sprite = null
+let Current_Level = 0
 startGame()
-MarioPlayer.vy = -200
-info.setLife(5)
 game.onUpdate(function () {
     if (MarioPlayer.tileKindAt(TileDirection.Center, myTiles.tile6)) {
         tiles.setTileAt(tiles.getTileLocation(3, 6), myTiles.tile7)
