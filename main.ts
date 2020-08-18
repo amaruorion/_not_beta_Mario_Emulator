@@ -3,6 +3,9 @@ namespace SpriteKind {
     export const Goomba = SpriteKind.create()
     export const Power_up = SpriteKind.create()
 }
+scene.onOverlapTile(SpriteKind.Player, myTiles.tile14, function (sprite, location) {
+	
+})
 function StartLevel () {
     if (Current_Level == 1) {
         tiles.setTilemap(tiles.createTilemap(hex`0a0008000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002020000000000000002010100000000000000040101000000000003020104010202020202`, img`
@@ -16,7 +19,7 @@ function StartLevel () {
             2 2 2 2 2 2 2 2 2 2 
             `, [myTiles.tile0,myTiles.tile6,myTiles.tile1,myTiles.tile3,myTiles.tile12], TileScale.Sixteen))
     } else if (Current_Level == 2) {
-        tiles.setTilemap(tiles.createTilemap(hex`1e000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000020200000000000000000000000000000200000000000002000000000200000000000000000000020200000000020400000000000201000000000000000000000000000002010100000002060405000500050101000000000000000000000000000004010100000206060402020202020101000000000000000000000000020201030102020404040401010101010101000000000000000000000000`, img`
+        tiles.setTilemap(tiles.createTilemap(hex`1e000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000020200000000000000000000000000000200000000000002000000000200000000000000000000020200000000020400000000000201000000000000000000000000000002010100000002060405000505050101000000000000000000000000000004010100000206060402020202020101000000000000000000000000020201030102020404040401010101010101070707070707070707070707`, img`
             . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . . . . 2 . . . . 2 2 . . . . 
@@ -25,7 +28,7 @@ function StartLevel () {
             . . 2 . . . . . 2 2 2 . . . . . 2 2 . . . . . . . . . . . . 
             . . 2 . . . . 2 2 2 2 2 2 2 2 2 2 2 . . . . . . . . . . . . 
             2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . . . . . . . . . . . . 
-            `, [myTiles.tile0,myTiles.tile6,myTiles.tile1,myTiles.tile8,myTiles.tile13,myTiles.tile2,myTiles.tile12], TileScale.Sixteen))
+            `, [myTiles.tile0,myTiles.tile6,myTiles.tile1,myTiles.tile8,myTiles.tile13,myTiles.tile2,myTiles.tile12,myTiles.tile14], TileScale.Sixteen))
     }
     for (let value2 of tiles.getTilesByType(myTiles.tile3)) {
         tiles.placeOnTile(MarioPlayer, value2)
@@ -568,35 +571,37 @@ forever(function () {
 })
 forever(function () {
     if (isGoombaCreated) {
-        if (!(GoombaEnemy.image.equals(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . e e e e . . . . . . 
-            . . . e e e e e e e e e e . . . 
-            . e e f f f e e e e f f f e e . 
-            e e d d d d f f f f d d d d e e 
-            e e e e e e e e e e e e e e e e 
-            . . . d d d d d d d d d d . . . 
-            . . . . d d d d d d d d . . . . 
-            . f f f f f . . . . f f f f f . 
-            `))) {
-            if (isMoveLeft == 0) {
-                GoombaEnemy.setVelocity(-50, 0)
-            }
-            if (isMoveLeft == 1) {
-                GoombaEnemy.setVelocity(50, 0)
-            }
-            if (GoombaEnemy.isHittingTile(CollisionDirection.Left)) {
-                isMoveLeft = 1
-            }
-            if (GoombaEnemy.isHittingTile(CollisionDirection.Right)) {
-                isMoveLeft = 0
+        for (let value of sprites.allOfKind(SpriteKind.Goomba)) {
+            if (!(value.image.equals(img`
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . e e e e . . . . . . 
+                . . . e e e e e e e e e e . . . 
+                . e e f f f e e e e f f f e e . 
+                e e d d d d f f f f d d d d e e 
+                e e e e e e e e e e e e e e e e 
+                . . . d d d d d d d d d d . . . 
+                . . . . d d d d d d d d . . . . 
+                . f f f f f . . . . f f f f f . 
+                `))) {
+                if (isMoveLeft == 0) {
+                    value.setVelocity(-50, 0)
+                }
+                if (isMoveLeft == 1) {
+                    value.setVelocity(50, 0)
+                }
+                if (value.isHittingTile(CollisionDirection.Left)) {
+                    isMoveLeft = 1
+                }
+                if (value.isHittingTile(CollisionDirection.Right)) {
+                    isMoveLeft = 0
+                }
             }
         }
     }
