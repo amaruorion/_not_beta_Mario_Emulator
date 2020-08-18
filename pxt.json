@@ -3,7 +3,8 @@
     "description": "",
     "dependencies": {
         "device": "*",
-        "pxt-lantern": "github:riknoll/pxt-lantern#v0.1.1"
+        "pxt-lantern": "github:riknoll/pxt-lantern#v0.1.1",
+        "tilemaps": "github:microsoft/pxt-tilemaps#v1.8.1"
     },
     "files": [
         "main.blocks",
