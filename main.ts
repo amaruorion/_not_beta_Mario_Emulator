@@ -14,26 +14,26 @@ namespace SpriteKind {
  */
 function StartLevel () {
     if (Current_Level == 1) {
-        tiles.setTilemap(tiles.createTilemap(hex`0a0008000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002020000000000000002010100000000000000040101000000000003020104010202020202`, img`
-            . . . . . . . . . . 
-            . . . . . . . . . . 
-            . . . . . . . . . . 
-            . . . . . . . . . . 
-            . . . 2 2 . . . . . 
-            . . 2 . . . . . . . 
-            . . 2 . . . . . . . 
-            2 2 2 2 2 2 2 2 2 2 
-            `, [myTiles.tile0,myTiles.tile6,myTiles.tile1,myTiles.tile3,myTiles.tile12,myTiles.transparency16,myTiles.tile2,myTiles.tile4,myTiles.tile5,myTiles.tile8,myTiles.tile9,myTiles.tile10,myTiles.tile11,myTiles.tile7,myTiles.tile13,myTiles.tile14], TileScale.Sixteen))
+        tiles.setTilemap(tiles.createTilemap(hex`1400080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000202000000000200000000000000000000000002010100000002060200000000000000000000000401010000000606060202020200050505000302010401020202060606060606060202020202`, img`
+            . . . . . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . . . . . 
+            . . . 2 2 . . . . 2 . . . . . . . . . . 
+            . . 2 . . . . . 2 2 2 . . . . . . . . . 
+            . . 2 . . . . . 2 2 2 2 2 2 2 . . . . . 
+            2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+            `, [myTiles.tile0,myTiles.tile6,myTiles.tile1,myTiles.tile3,myTiles.tile12,myTiles.tile2,myTiles.tile13], TileScale.Sixteen))
     } else if (Current_Level == 2) {
-        tiles.setTilemap(tiles.createTilemap(hex`1e000800000000000000000000000000000000000000000000000000000002020202000000000000000000000000000000000000000000000000000008090909000000000000000000000000000000000000000200000000020204040404000000000000000000000200000000000002000000000200000004040404000000020200000000020400000000000201000000000000000004040404000002010100000002060400050505000101000000000000000004040404000004010100000206060402020202020101000000000000000004040404020201030102020404040401010101010101070707070707070707070707`, img`
-            . . . . . . . . . . . . . . . . . . . . . . . . . . 2 2 2 2 
-            . . . . . . . . . . . . . . . . . . . . . . . . . . 2 2 2 2 
-            . . . . . . . . . . . . . . . . . . . 2 . . . . 2 2 2 2 2 2 
-            . . . . . . . . . . 2 . . . . . . 2 . . . . 2 . . . 2 2 2 2 
-            . . . 2 2 . . . . 2 2 . . . . . 2 2 . . . . . . . . 2 2 2 2 
-            . . 2 . . . . . 2 2 2 . . . . . 2 2 . . . . . . . . 2 2 2 2 
-            . . 2 . . . . 2 2 2 2 2 2 2 2 2 2 2 . . . . . . . . 2 2 2 2 
-            2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . . . . . . . . . . . . 
+        tiles.setTilemap(tiles.createTilemap(hex`280008000000000000000000000000000000000000000000000000000000000000000000000000000202020200000000000000000000000000000000000000000000000000000000000000000000000008090909000000000000000000000000000000000000000000000000000000000002000000000202040404040000000000000000000002000000000000000200000200000000000200000000020000000404040400000002020000000002040000000000000204020204000000000201000000000000000004040404000002010100000002060400050505050004040404040005050001010000000000000000040404040000040101000002060604020202020202020202020202020202010100000000000000000404040402020103010202040404040101010101010101010101010101010101070707070707070707070707`, img`
+            . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 2 2 2 
+            . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 2 2 2 
+            . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 . . . . 2 2 2 2 2 2 
+            . . . . . . . . . . 2 . . . . . . . 2 . . 2 . . . . . 2 . . . . 2 . . . 2 2 2 2 
+            . . . 2 2 . . . . 2 2 . . . . . . 2 2 2 2 2 . . . . 2 2 . . . . . . . . 2 2 2 2 
+            . . 2 . . . . . 2 2 2 . . . . . . 2 2 2 2 2 . . . . 2 2 . . . . . . . . 2 2 2 2 
+            . . 2 . . . . 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . . . . . . . . 2 2 2 2 
+            2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . . . . . . . . . . . . 
             `, [myTiles.tile0,myTiles.tile6,myTiles.tile1,myTiles.tile8,myTiles.tile13,myTiles.tile2,myTiles.tile12,myTiles.tile14,myTiles.tile15,myTiles.tile16], TileScale.Sixteen))
     }
     for (let value2 of tiles.getTilesByType(myTiles.tile3)) {
@@ -214,7 +214,6 @@ function startGame () {
     isMoveLeft = 0
     isGoombaCreated = false
     MarioPlayer.vy = -200
-    direction = [CollisionDirection.Top, CollisionDirection.Left, CollisionDirection.Right, CollisionDirection.Bottom]
 }
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     if (MarioPlayer.isHittingTile(CollisionDirection.Bottom)) {
@@ -341,7 +340,6 @@ sprites.onOverlap(SpriteKind.Mario, SpriteKind.Power_up, function (sprite, other
 })
 let GoombaEnemy: Sprite = null
 let marioDefaultFixImage: Image = null
-let direction: CollisionDirection[] = []
 let isGoombaCreated = false
 let isMoveLeft = 0
 let marioJumpLeftImage: Image = null
@@ -522,6 +520,21 @@ game.onUpdate(function () {
     }
 })
 game.onUpdate(function () {
+    if (MarioPlayer.tileKindAt(TileDirection.Right, myTiles.tile15) && controller.right.isPressed()) {
+        tiles.setTilemap(tiles.createTilemap(hex`0f000800000000000000000000070000000000000000000000000000060000000000000000000000000000050000000000000000000000000000050000000000000000000000000000050000000000010000000000000000050000000000020000000000000003040300000000010101010101010101010101010101`, img`
+            . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . 
+            2 . . . . . . . . . . . . . . 
+            2 . . . . . . . . . . . . . . 
+            2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+            `, [myTiles.transparency16,myTiles.tile1,myTiles.tile18,myTiles.tile19,myTiles.tile20,myTiles.tile21,myTiles.tile22,myTiles.tile23], TileScale.Sixteen))
+        tiles.placeOnTile(MarioPlayer, tiles.getTileLocation(1, 6))
+    }
+})
+game.onUpdate(function () {
     if (MarioPlayer.tileKindAt(TileDirection.Bottom, myTiles.tile12)) {
         tiles.setTileAt(tiles.getTileLocation(3, 7), myTiles.tile8)
     }
@@ -554,17 +567,6 @@ game.onUpdate(function () {
         tiles.setWallAt(tiles.getTileLocation(3, 5), true)
         tiles.setWallAt(tiles.getTileLocation(4, 6), true)
         tiles.setWallAt(tiles.getTileLocation(4, 5), true)
-    }
-})
-game.onUpdate(function () {
-    if (tiles.tileAtLocationEquals(direction[0], myTiles.tile10)) {
-    	
-    } else if (tiles.tileAtLocationEquals(direction[1], myTiles.tile15)) {
-    	
-    } else if (tiles.tileAtLocationEquals(direction[2], myTiles.tile18)) {
-    	
-    } else if (tiles.tileAtLocationEquals(direction[3], myTiles.tile8)) {
-    	
     }
 })
 forever(function () {
