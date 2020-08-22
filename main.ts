@@ -35,10 +35,22 @@ function StartLevel () {
             . . 2 . . . . 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . . . . . . . . 2 2 2 2 
             2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . . . . . . . . . . . . 
             `, [myTiles.tile0,myTiles.tile6,myTiles.tile1,myTiles.tile8,myTiles.tile13,myTiles.tile2,myTiles.tile12,myTiles.tile14,myTiles.tile15,myTiles.tile16], TileScale.Sixteen))
+    } else if (Current_Level == 3) {
+        tiles.setTilemap(tiles.createTilemap(hex`0f000800000000000000000000070000000000000000000000000000060000000000000000000000000000050000000000000000000000000000050000000000000000000000000000050000000000010000000000000000050000000000020000000000080003040300000000010901010101010101010101010101`, img`
+            . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . 
+            2 . . . . . . . . . . . . . . 
+            2 . . . . . . . . . . . . . . 
+            2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+            `, [myTiles.transparency16,myTiles.tile1,myTiles.tile18,myTiles.tile19,myTiles.tile20,myTiles.tile21,myTiles.tile22,myTiles.tile23,myTiles.tile2,myTiles.tile3], TileScale.Sixteen))
     }
     for (let value2 of tiles.getTilesByType(myTiles.tile3)) {
         tiles.placeOnTile(MarioPlayer, value2)
         tiles.setTileAt(value2, myTiles.tile1)
+        MarioPlayer.vy = -200
     }
     scene.cameraFollowSprite(MarioPlayer)
 }
@@ -210,9 +222,11 @@ function startGame () {
     marioJumpLeftImage.flipX()
     MarioPlayer.ay = 350
     Current_Level = 1
+    info.setLife(5)
     StartLevel()
     isMoveLeft = 0
     isGoombaCreated = false
+    isTouchingBall = false
     MarioPlayer.vy = -200
 }
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -338,8 +352,15 @@ sprites.onOverlap(SpriteKind.Mario, SpriteKind.Power_up, function (sprite, other
     pause(5000)
     mario_jump_count = 0
 })
+scene.onOverlapTile(SpriteKind.Mario, myTiles.tile23, function (sprite, location) {
+    if (!(isTouchingBall)) {
+        info.changeLifeBy(1)
+    }
+    isTouchingBall = true
+})
 let GoombaEnemy: Sprite = null
 let marioDefaultFixImage: Image = null
+let isTouchingBall = false
 let isGoombaCreated = false
 let isMoveLeft = 0
 let marioJumpLeftImage: Image = null
@@ -521,17 +542,8 @@ game.onUpdate(function () {
 })
 game.onUpdate(function () {
     if (MarioPlayer.tileKindAt(TileDirection.Right, myTiles.tile15) && controller.right.isPressed()) {
-        tiles.setTilemap(tiles.createTilemap(hex`0f000800000000000000000000070000000000000000000000000000060000000000000000000000000000050000000000000000000000000000050000000000000000000000000000050000000000010000000000000000050000000000020000000000000003040300000000010101010101010101010101010101`, img`
-            . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . 
-            2 . . . . . . . . . . . . . . 
-            2 . . . . . . . . . . . . . . 
-            2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-            `, [myTiles.transparency16,myTiles.tile1,myTiles.tile18,myTiles.tile19,myTiles.tile20,myTiles.tile21,myTiles.tile22,myTiles.tile23], TileScale.Sixteen))
-        tiles.placeOnTile(MarioPlayer, tiles.getTileLocation(1, 6))
+        Current_Level += 1
+        StartLevel()
     }
 })
 game.onUpdate(function () {
