@@ -4,55 +4,58 @@ namespace SpriteKind {
     export const Power_up = SpriteKind.create()
 }
 function StartLevel () {
-    if (Current_Level == 1) {
-        tiles.setTilemap(tiles.createTilemap(hex`1400080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000202000000000200000000000000000000000002010100000002060200000000000000000000000401010000000606060202020200050505000302010401020202060606060606060202020202`, img`
-            . . . . . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . . . . . 
-            . . . 2 2 . . . . 2 . . . . . . . . . . 
-            . . 2 . . . . . 2 2 2 . . . . . . . . . 
-            . . 2 . . . . . 2 2 2 2 2 2 2 . . . . . 
-            2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-            `, [myTiles.tile0,myTiles.tile6,myTiles.tile1,myTiles.tile3,myTiles.tile12,myTiles.tile2,myTiles.tile13], TileScale.Sixteen))
-    } else if (Current_Level == 2) {
-        tiles.setTilemap(tiles.createTilemap(hex`280008000000000000000000000000000000000000000000000000000000000000000000000000000202020200000000000000000000000000000000000000000000000000000000000000000000000008090909000000000000000000000000000000000000000000000000000000000002000000000202040404040000000000000000000002000000000000000200000200000000000200000000020000000404040400000002020000000002040000000000000204020204000000000201000000000000000004040404000002010100000002060400050505050004040404040005050001010000000000000000040404040000040101000002060604020202020202010101010102020202010100000000000000000404040402020103010202040404040101010101010101010101010101010101070707070707070707070707`, img`
-            . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 2 2 2 
-            . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 2 2 2 
-            . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 . . . . 2 2 2 2 2 2 
-            . . . . . . . . . . 2 . . . . . . . 2 . . 2 . . . . . 2 . . . . 2 . . . 2 2 2 2 
-            . . . 2 2 . . . . 2 2 . . . . . . 2 2 2 2 2 . . . . 2 2 . . . . . . . . 2 2 2 2 
-            . . 2 . . . . . 2 2 2 . . . . . . 2 2 2 2 2 . . . . 2 2 . . . . . . . . 2 2 2 2 
-            . . 2 . . . . 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . . . . . . . . 2 2 2 2 
-            2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . . . . . . . . . . . . 
-            `, [myTiles.tile0,myTiles.tile6,myTiles.tile1,myTiles.tile8,myTiles.tile13,myTiles.tile2,myTiles.tile12,myTiles.tile14,myTiles.tile15,myTiles.tile16], TileScale.Sixteen))
-    } else if (Current_Level == 3) {
-        tiles.setTilemap(tiles.createTilemap(hex`0f000800000000000000000000070000000000000000000000000000060000000000000000000000000000050000000000000000000000000000050000000000000000000000000000050000000000010000000000000000050000000000020000000000080003040300000000010901010101010101010101010101`, img`
-            . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . 
-            2 . . . . . . . . . . . . . . 
-            2 . . . . . . . . . . . . . . 
-            2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-            `, [myTiles.transparency16,myTiles.tile1,myTiles.tile18,myTiles.tile19,myTiles.tile20,myTiles.tile21,myTiles.tile22,myTiles.tile23,myTiles.tile2,myTiles.tile3], TileScale.Sixteen))
+    if (!(tiles.getLoadedMap() == World_1_Level_Select)) {
+        controller.moveSprite(MarioPlayer, 100, 0)
+        if (Current_Level == 1) {
+            tiles.setTilemap(tiles.createTilemap(hex`1400080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000202000000000200000000000000000000000002010100000002060200000000000000000000000401010000000606060202020200050505000302010401020202060606060606060202020202`, img`
+                . . . . . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . . . . . 
+                . . . 2 2 . . . . 2 . . . . . . . . . . 
+                . . 2 . . . . . 2 2 2 . . . . . . . . . 
+                . . 2 . . . . . 2 2 2 2 2 2 2 . . . . . 
+                2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+                `, [myTiles.tile0,myTiles.tile6,myTiles.tile1,myTiles.tile3,myTiles.tile12,myTiles.tile2,myTiles.tile13], TileScale.Sixteen))
+        } else if (Current_Level == 2) {
+            tiles.setTilemap(tiles.createTilemap(hex`280008000000000000000000000000000000000000000000000000000000000000000000000000000202020200000000000000000000000000000000000000000000000000000000000000000000000008090909000000000000000000000000000000000000000000000000000000000002000000000202040404040000000000000000000002000000000000000200000200000000000200000000020000000404040400000002020000000002040000000000000204020204000000000201000000000000000004040404000002010100000002060400050505050004040404040005050001010000000000000000040404040000040101000002060604020202020202010101010102020202010100000000000000000404040402020103010202040404040101010101010101010101010101010101070707070707070707070707`, img`
+                . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 2 2 2 
+                . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 2 2 2 
+                . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 . . . . 2 2 2 2 2 2 
+                . . . . . . . . . . 2 . . . . . . . 2 . . 2 . . . . . 2 . . . . 2 . . . 2 2 2 2 
+                . . . 2 2 . . . . 2 2 . . . . . . 2 2 2 2 2 . . . . 2 2 . . . . . . . . 2 2 2 2 
+                . . 2 . . . . . 2 2 2 . . . . . . 2 2 2 2 2 . . . . 2 2 . . . . . . . . 2 2 2 2 
+                . . 2 . . . . 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . . . . . . . . 2 2 2 2 
+                2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . . . . . . . . . . . . 
+                `, [myTiles.tile0,myTiles.tile6,myTiles.tile1,myTiles.tile8,myTiles.tile13,myTiles.tile2,myTiles.tile12,myTiles.tile14,myTiles.tile15,myTiles.tile16], TileScale.Sixteen))
+        } else if (Current_Level == 3) {
+            tiles.setTilemap(tiles.createTilemap(hex`0f000800000000000000000000070000000000000000000000000000060000000000000000000000000000050000000000000000000000000000050000000000000000000000000000050000000000010000000000000000050000000000020000000000080003040300000000010901010101010101010101010101`, img`
+                . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . 
+                2 . . . . . . . . . . . . . . 
+                2 . . . . . . . . . . . . . . 
+                2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+                `, [myTiles.transparency16,myTiles.tile1,myTiles.tile18,myTiles.tile19,myTiles.tile20,myTiles.tile21,myTiles.tile22,myTiles.tile23,myTiles.tile2,myTiles.tile3], TileScale.Sixteen))
+        }
+        for (let value2 of tiles.getTilesByType(myTiles.tile3)) {
+            tiles.placeOnTile(MarioPlayer, value2)
+            tiles.setTileAt(value2, myTiles.tile1)
+            MarioPlayer.vy = -200
+        }
+        scene.cameraFollowSprite(MarioPlayer)
     }
-    for (let value2 of tiles.getTilesByType(myTiles.tile3)) {
-        tiles.placeOnTile(MarioPlayer, value2)
-        tiles.setTileAt(value2, myTiles.tile1)
-        MarioPlayer.vy = -200
-    }
-    scene.cameraFollowSprite(MarioPlayer)
 }
 scene.onOverlapTile(SpriteKind.Mario, myTiles.tile20, function (sprite, location) {
-    game.over(true)
+    goToWorldSelect()
 })
 scene.onOverlapTile(SpriteKind.Mario, myTiles.tile21, function (sprite, location) {
-    game.over(true)
+    goToWorldSelect()
 })
 scene.onOverlapTile(SpriteKind.Mario, myTiles.tile19, function (sprite, location) {
-    game.over(true)
+    goToWorldSelect()
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (mario_jump_count <= 2) {
@@ -219,6 +222,18 @@ function startGame () {
         . e e . . . . . . . . . . . . . 
         `
     controller.moveSprite(MarioPlayer, 100, 0)
+    World_1_Level_Select = tiles.createMap(tiles.createTilemap(hex`14000a00000b0b0b000d0c0d0c0d0c0d0c0d0c0d0c0d0c0d000b0b0b000c0d0c0d0c0d0c0d0c0d0c0d0c0d0c0c000a000c0d0c0d0c0d0000000000000c0d0c0d0d000a000d0c0d0c0d0c0005050505000d0c0d0c0c000a000c0d0c0d0c0d0005070805000c0d0c0d0d000a000000000000000005080605000d0c0d0c0c0009010202030202040205050505000c0d0c0d0d0000000000000000000000000000000d0c0d0c0c0d0c0d0c0d0c0d0c0d0c0d0c0d0c0d0c0d0c0d0d0c0d0c0d0c0d0c0d0c0d0c0d0c0d0c0d0c0d0c`, img`
+        2 . . . 2 . . . . . . . . . . . . . . . 
+        2 . . . 2 . . . . . . . . . . . . . . . 
+        . 2 . 2 . . . . . . 2 2 2 2 2 2 . . . . 
+        . 2 . 2 . . . . . . 2 . . . . 2 . . . . 
+        . 2 . 2 . . . . . . 2 . 2 2 . 2 . . . . 
+        . 2 . 2 2 2 2 2 2 2 2 . 2 2 . 2 . . . . 
+        . 2 . . . . . . . . . . . . . 2 . . . . 
+        . 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . . . . 
+        . . . . . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . . . . . 
+        `, [myTiles.transparency16,myTiles.tile25,myTiles.tile27,myTiles.tile28,myTiles.tile29,myTiles.tile30,myTiles.tile31,myTiles.tile32,myTiles.tile33,myTiles.tile34,myTiles.tile35,myTiles.tile36,sprites.castle.tileGrass1,sprites.castle.tileGrass3], TileScale.Sixteen))
     marioJumpLeftImage.flipX()
     MarioPlayer.ay = 350
     Current_Level = 1
@@ -346,6 +361,16 @@ scene.onOverlapTile(SpriteKind.Mario, myTiles.tile14, function (sprite, location
     info.changeLifeBy(-1)
     StartLevel()
 })
+function goToWorldSelect () {
+    tiles.loadMap(World_1_Level_Select)
+    for (let value of tiles.getTilesByType(myTiles.tile36)) {
+        tiles.placeOnTile(MarioPlayer, value)
+        tiles.setTileAt(value, myTiles.transparency16)
+    }
+    for (let value of sprites.allOfKind(SpriteKind.Goomba)) {
+        value.destroy()
+    }
+}
 sprites.onOverlap(SpriteKind.Mario, SpriteKind.Power_up, function (sprite, otherSprite) {
     otherSprite.destroy()
     mario_jump_count = -8
@@ -353,14 +378,14 @@ sprites.onOverlap(SpriteKind.Mario, SpriteKind.Power_up, function (sprite, other
     mario_jump_count = 0
 })
 scene.onOverlapTile(SpriteKind.Mario, myTiles.tile22, function (sprite, location) {
-    game.over(true)
+    goToWorldSelect()
 })
 scene.onOverlapTile(SpriteKind.Mario, myTiles.tile23, function (sprite, location) {
     if (!(isTouchingBall)) {
         info.changeLifeBy(1)
     }
     isTouchingBall = true
-    game.over(true)
+    goToWorldSelect()
 })
 let GoombaEnemy: Sprite = null
 let marioDefaultFixImage: Image = null
@@ -369,8 +394,9 @@ let isGoombaCreated = false
 let isMoveLeft = 0
 let marioJumpLeftImage: Image = null
 let mario_jump_count = 0
-let MarioPlayer: Sprite = null
 let Current_Level = 0
+let MarioPlayer: Sprite = null
+let World_1_Level_Select: tiles.WorldMap = null
 startGame()
 game.onUpdate(function () {
     if (MarioPlayer.tileKindAt(TileDirection.Center, myTiles.tile6)) {
@@ -382,161 +408,165 @@ game.onUpdate(function () {
     }
 })
 game.onUpdate(function () {
-    if (!(MarioPlayer.isHittingTile(CollisionDirection.Bottom)) && controller.left.isPressed()) {
-        MarioPlayer.setImage(marioJumpLeftImage)
-        marioDefaultFixImage = img`
-            . . . . 2 2 2 2 2 . . . 
-            . 2 2 2 2 2 2 2 2 2 . . 
-            . . . d f d d e e e . . 
-            . d d d f d d d e d e . 
-            d d d f d d d e e d e . 
-            . f f f f d d d d e . . 
-            . . . d d d d d d . . . 
-            . . 2 2 8 2 2 8 2 2 . . 
-            . 2 2 2 8 2 2 8 2 2 2 . 
-            2 2 2 2 8 8 8 8 2 2 2 2 
-            d d 2 8 5 8 8 5 8 2 d d 
-            d d d 8 8 8 8 8 8 d d d 
-            d d 8 8 8 8 8 8 8 8 d d 
-            . . 8 8 8 . . 8 8 8 . . 
-            . e e e . . . . e e e . 
-            e e e e . . . . e e e e 
-            `
-    } else if (!(MarioPlayer.isHittingTile(CollisionDirection.Bottom)) && controller.right.isPressed()) {
-        MarioPlayer.setImage(img`
-            . . . . 2 2 2 2 2 . . d d d . . 
-            . . . 2 2 2 2 2 2 2 2 2 d d . . 
-            . . . e e e d d f d . 2 2 2 . . 
-            . . e d e d d d f d d d 2 2 . . 
-            . . e d e e d d d f d d d 2 . . 
-            . . . e d d d d f f f f 2 . . . 
-            . . . . d d d d d d d 2 2 . . . 
-            d d 2 2 2 2 8 2 2 2 8 2 . . . e 
-            d d 2 2 2 2 2 8 2 2 2 8 . . e e 
-            . d d 2 2 2 2 8 8 8 8 5 8 8 e e 
-            . . . . 8 8 8 8 5 8 8 8 8 8 e e 
-            . . e e 8 8 8 8 8 8 8 8 8 8 e e 
-            . e e e 8 8 8 8 8 8 . . . . . . 
-            . e e . . . . . . . . . . . . . 
-            `)
-        marioDefaultFixImage = img`
-            . . . 2 2 2 2 2 . . . . 
-            . . 2 2 2 2 2 2 2 2 2 . 
-            . . e e e d d f d . . . 
-            . e d e d d d f d d d . 
-            . e d e e d d d f d d d 
-            . . e d d d d f f f f . 
-            . . . d d d d d d . . . 
-            . . 2 2 8 2 2 8 2 2 . . 
-            . 2 2 2 8 2 2 8 2 2 2 . 
-            2 2 2 2 8 8 8 8 2 2 2 2 
-            d d 2 8 5 8 8 5 8 2 d d 
-            d d d 8 8 8 8 8 8 d d d 
-            d d 8 8 8 8 8 8 8 8 d d 
-            . . 8 8 8 . . 8 8 8 . . 
-            . e e e . . . . e e e . 
-            e e e e . . . . e e e e 
-            `
-    } else if (MarioPlayer.isHittingTile(CollisionDirection.Bottom)) {
-        MarioPlayer.setImage(marioDefaultFixImage)
+    if (!(tiles.getLoadedMap() == World_1_Level_Select)) {
+        if (!(MarioPlayer.isHittingTile(CollisionDirection.Bottom)) && controller.left.isPressed()) {
+            MarioPlayer.setImage(marioJumpLeftImage)
+            marioDefaultFixImage = img`
+                . . . . 2 2 2 2 2 . . . 
+                . 2 2 2 2 2 2 2 2 2 . . 
+                . . . d f d d e e e . . 
+                . d d d f d d d e d e . 
+                d d d f d d d e e d e . 
+                . f f f f d d d d e . . 
+                . . . d d d d d d . . . 
+                . . 2 2 8 2 2 8 2 2 . . 
+                . 2 2 2 8 2 2 8 2 2 2 . 
+                2 2 2 2 8 8 8 8 2 2 2 2 
+                d d 2 8 5 8 8 5 8 2 d d 
+                d d d 8 8 8 8 8 8 d d d 
+                d d 8 8 8 8 8 8 8 8 d d 
+                . . 8 8 8 . . 8 8 8 . . 
+                . e e e . . . . e e e . 
+                e e e e . . . . e e e e 
+                `
+        } else if (!(MarioPlayer.isHittingTile(CollisionDirection.Bottom)) && controller.right.isPressed()) {
+            MarioPlayer.setImage(img`
+                . . . . 2 2 2 2 2 . . d d d . . 
+                . . . 2 2 2 2 2 2 2 2 2 d d . . 
+                . . . e e e d d f d . 2 2 2 . . 
+                . . e d e d d d f d d d 2 2 . . 
+                . . e d e e d d d f d d d 2 . . 
+                . . . e d d d d f f f f 2 . . . 
+                . . . . d d d d d d d 2 2 . . . 
+                d d 2 2 2 2 8 2 2 2 8 2 . . . e 
+                d d 2 2 2 2 2 8 2 2 2 8 . . e e 
+                . d d 2 2 2 2 8 8 8 8 5 8 8 e e 
+                . . . . 8 8 8 8 5 8 8 8 8 8 e e 
+                . . e e 8 8 8 8 8 8 8 8 8 8 e e 
+                . e e e 8 8 8 8 8 8 . . . . . . 
+                . e e . . . . . . . . . . . . . 
+                `)
+            marioDefaultFixImage = img`
+                . . . 2 2 2 2 2 . . . . 
+                . . 2 2 2 2 2 2 2 2 2 . 
+                . . e e e d d f d . . . 
+                . e d e d d d f d d d . 
+                . e d e e d d d f d d d 
+                . . e d d d d f f f f . 
+                . . . d d d d d d . . . 
+                . . 2 2 8 2 2 8 2 2 . . 
+                . 2 2 2 8 2 2 8 2 2 2 . 
+                2 2 2 2 8 8 8 8 2 2 2 2 
+                d d 2 8 5 8 8 5 8 2 d d 
+                d d d 8 8 8 8 8 8 d d d 
+                d d 8 8 8 8 8 8 8 8 d d 
+                . . 8 8 8 . . 8 8 8 . . 
+                . e e e . . . . e e e . 
+                e e e e . . . . e e e e 
+                `
+        } else if (MarioPlayer.isHittingTile(CollisionDirection.Bottom)) {
+            MarioPlayer.setImage(marioDefaultFixImage)
+        }
     }
 })
 game.onUpdate(function () {
-    if (MarioPlayer.vy < 0 && controller.left.isPressed()) {
-        MarioPlayer.setImage(marioJumpLeftImage)
-    } else if (MarioPlayer.vy < 0 && controller.right.isPressed()) {
-        MarioPlayer.setImage(img`
-            . . . . 2 2 2 2 2 . . d d d . . 
-            . . . 2 2 2 2 2 2 2 2 2 d d . . 
-            . . . e e e d d f d . 2 2 2 . . 
-            . . e d e d d d f d d d 2 2 . . 
-            . . e d e e d d d f d d d 2 . . 
-            . . . e d d d d f f f f 2 . . . 
-            . . . . d d d d d d d 2 2 . . . 
-            d d 2 2 2 2 8 2 2 2 8 2 . . . e 
-            d d 2 2 2 2 2 8 2 2 2 8 . . e e 
-            . d d 2 2 2 2 8 8 8 8 5 8 8 e e 
-            . . . . 8 8 8 8 5 8 8 8 8 8 e e 
-            . . e e 8 8 8 8 8 8 8 8 8 8 e e 
-            . e e e 8 8 8 8 8 8 . . . . . . 
-            . e e . . . . . . . . . . . . . 
-            `)
-    }
-    if (controller.left.isPressed() && MarioPlayer.isHittingTile(CollisionDirection.Bottom)) {
-        MarioPlayer.setImage(img`
-            . . . . 2 2 2 2 2 . . . 
-            . 2 2 2 2 2 2 2 2 2 . . 
-            . . . d f d d e e e . . 
-            . d d d f d d d e d e . 
-            d d d f d d d e e d e . 
-            . f f f f d d d d e . . 
-            . . . d d d d d d . . . 
-            . . 2 2 8 2 2 8 2 2 . . 
-            . 2 2 2 8 2 2 8 2 2 2 . 
-            2 2 2 2 8 8 8 8 2 2 2 2 
-            d d 2 8 5 8 8 5 8 2 d d 
-            d d d 8 8 8 8 8 8 d d d 
-            d d 8 8 8 8 8 8 8 8 d d 
-            . . 8 8 8 . . 8 8 8 . . 
-            . e e e . . . . e e e . 
-            e e e e . . . . e e e e 
-            `)
-        marioDefaultFixImage = img`
-            . . . . 2 2 2 2 2 . . . 
-            . 2 2 2 2 2 2 2 2 2 . . 
-            . . . d f d d e e e . . 
-            . d d d f d d d e d e . 
-            d d d f d d d e e d e . 
-            . f f f f d d d d e . . 
-            . . . d d d d d d . . . 
-            . . 2 2 8 2 2 8 2 2 . . 
-            . 2 2 2 8 2 2 8 2 2 2 . 
-            2 2 2 2 8 8 8 8 2 2 2 2 
-            d d 2 8 5 8 8 5 8 2 d d 
-            d d d 8 8 8 8 8 8 d d d 
-            d d 8 8 8 8 8 8 8 8 d d 
-            . . 8 8 8 . . 8 8 8 . . 
-            . e e e . . . . e e e . 
-            e e e e . . . . e e e e 
-            `
-    }
-    if (controller.right.isPressed() && MarioPlayer.isHittingTile(CollisionDirection.Bottom)) {
-        MarioPlayer.setImage(img`
-            . . . 2 2 2 2 2 . . . . 
-            . . 2 2 2 2 2 2 2 2 2 . 
-            . . e e e d d f d . . . 
-            . e d e d d d f d d d . 
-            . e d e e d d d f d d d 
-            . . e d d d d f f f f . 
-            . . . d d d d d d . . . 
-            . . 2 2 8 2 2 8 2 2 . . 
-            . 2 2 2 8 2 2 8 2 2 2 . 
-            2 2 2 2 8 8 8 8 2 2 2 2 
-            d d 2 8 5 8 8 5 8 2 d d 
-            d d d 8 8 8 8 8 8 d d d 
-            d d 8 8 8 8 8 8 8 8 d d 
-            . . 8 8 8 . . 8 8 8 . . 
-            . e e e . . . . e e e . 
-            e e e e . . . . e e e e 
-            `)
-        marioDefaultFixImage = img`
-            . . . 2 2 2 2 2 . . . . 
-            . . 2 2 2 2 2 2 2 2 2 . 
-            . . e e e d d f d . . . 
-            . e d e d d d f d d d . 
-            . e d e e d d d f d d d 
-            . . e d d d d f f f f . 
-            . . . d d d d d d . . . 
-            . . 2 2 8 2 2 8 2 2 . . 
-            . 2 2 2 8 2 2 8 2 2 2 . 
-            2 2 2 2 8 8 8 8 2 2 2 2 
-            d d 2 8 5 8 8 5 8 2 d d 
-            d d d 8 8 8 8 8 8 d d d 
-            d d 8 8 8 8 8 8 8 8 d d 
-            . . 8 8 8 . . 8 8 8 . . 
-            . e e e . . . . e e e . 
-            e e e e . . . . e e e e 
-            `
+    if (!(tiles.getLoadedMap() == World_1_Level_Select)) {
+        if (MarioPlayer.vy < 0 && controller.left.isPressed()) {
+            MarioPlayer.setImage(marioJumpLeftImage)
+        } else if (MarioPlayer.vy < 0 && controller.right.isPressed()) {
+            MarioPlayer.setImage(img`
+                . . . . 2 2 2 2 2 . . d d d . . 
+                . . . 2 2 2 2 2 2 2 2 2 d d . . 
+                . . . e e e d d f d . 2 2 2 . . 
+                . . e d e d d d f d d d 2 2 . . 
+                . . e d e e d d d f d d d 2 . . 
+                . . . e d d d d f f f f 2 . . . 
+                . . . . d d d d d d d 2 2 . . . 
+                d d 2 2 2 2 8 2 2 2 8 2 . . . e 
+                d d 2 2 2 2 2 8 2 2 2 8 . . e e 
+                . d d 2 2 2 2 8 8 8 8 5 8 8 e e 
+                . . . . 8 8 8 8 5 8 8 8 8 8 e e 
+                . . e e 8 8 8 8 8 8 8 8 8 8 e e 
+                . e e e 8 8 8 8 8 8 . . . . . . 
+                . e e . . . . . . . . . . . . . 
+                `)
+        }
+        if (controller.left.isPressed() && MarioPlayer.isHittingTile(CollisionDirection.Bottom)) {
+            MarioPlayer.setImage(img`
+                . . . . 2 2 2 2 2 . . . 
+                . 2 2 2 2 2 2 2 2 2 . . 
+                . . . d f d d e e e . . 
+                . d d d f d d d e d e . 
+                d d d f d d d e e d e . 
+                . f f f f d d d d e . . 
+                . . . d d d d d d . . . 
+                . . 2 2 8 2 2 8 2 2 . . 
+                . 2 2 2 8 2 2 8 2 2 2 . 
+                2 2 2 2 8 8 8 8 2 2 2 2 
+                d d 2 8 5 8 8 5 8 2 d d 
+                d d d 8 8 8 8 8 8 d d d 
+                d d 8 8 8 8 8 8 8 8 d d 
+                . . 8 8 8 . . 8 8 8 . . 
+                . e e e . . . . e e e . 
+                e e e e . . . . e e e e 
+                `)
+            marioDefaultFixImage = img`
+                . . . . 2 2 2 2 2 . . . 
+                . 2 2 2 2 2 2 2 2 2 . . 
+                . . . d f d d e e e . . 
+                . d d d f d d d e d e . 
+                d d d f d d d e e d e . 
+                . f f f f d d d d e . . 
+                . . . d d d d d d . . . 
+                . . 2 2 8 2 2 8 2 2 . . 
+                . 2 2 2 8 2 2 8 2 2 2 . 
+                2 2 2 2 8 8 8 8 2 2 2 2 
+                d d 2 8 5 8 8 5 8 2 d d 
+                d d d 8 8 8 8 8 8 d d d 
+                d d 8 8 8 8 8 8 8 8 d d 
+                . . 8 8 8 . . 8 8 8 . . 
+                . e e e . . . . e e e . 
+                e e e e . . . . e e e e 
+                `
+        }
+        if (controller.right.isPressed() && MarioPlayer.isHittingTile(CollisionDirection.Bottom)) {
+            MarioPlayer.setImage(img`
+                . . . 2 2 2 2 2 . . . . 
+                . . 2 2 2 2 2 2 2 2 2 . 
+                . . e e e d d f d . . . 
+                . e d e d d d f d d d . 
+                . e d e e d d d f d d d 
+                . . e d d d d f f f f . 
+                . . . d d d d d d . . . 
+                . . 2 2 8 2 2 8 2 2 . . 
+                . 2 2 2 8 2 2 8 2 2 2 . 
+                2 2 2 2 8 8 8 8 2 2 2 2 
+                d d 2 8 5 8 8 5 8 2 d d 
+                d d d 8 8 8 8 8 8 d d d 
+                d d 8 8 8 8 8 8 8 8 d d 
+                . . 8 8 8 . . 8 8 8 . . 
+                . e e e . . . . e e e . 
+                e e e e . . . . e e e e 
+                `)
+            marioDefaultFixImage = img`
+                . . . 2 2 2 2 2 . . . . 
+                . . 2 2 2 2 2 2 2 2 2 . 
+                . . e e e d d f d . . . 
+                . e d e d d d f d d d . 
+                . e d e e d d d f d d d 
+                . . e d d d d f f f f . 
+                . . . d d d d d d . . . 
+                . . 2 2 8 2 2 8 2 2 . . 
+                . 2 2 2 8 2 2 8 2 2 2 . 
+                2 2 2 2 8 8 8 8 2 2 2 2 
+                d d 2 8 5 8 8 5 8 2 d d 
+                d d d 8 8 8 8 8 8 d d d 
+                d d 8 8 8 8 8 8 8 8 d d 
+                . . 8 8 8 . . 8 8 8 . . 
+                . e e e . . . . e e e . 
+                e e e e . . . . e e e e 
+                `
+        }
     }
 })
 game.onUpdate(function () {
@@ -583,6 +613,12 @@ game.onUpdate(function () {
         tiles.setWallAt(tiles.getTileLocation(3, 5), true)
         tiles.setWallAt(tiles.getTileLocation(4, 6), true)
         tiles.setWallAt(tiles.getTileLocation(4, 5), true)
+    }
+})
+game.onUpdate(function () {
+    if (tiles.getLoadedMap() == World_1_Level_Select) {
+        MarioPlayer.ay = 0
+        controller.moveSprite(MarioPlayer, 100, 100)
     }
 })
 forever(function () {
